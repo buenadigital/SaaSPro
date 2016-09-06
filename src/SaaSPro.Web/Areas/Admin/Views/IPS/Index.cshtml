@@ -1,0 +1,31 @@
+﻿@model SaaSPro.Services.ViewModels.IPSListModel
+@{
+    ViewBag.Title = "IP Security";
+}
+<div class="page-header with-actions">
+    <h1>@ViewBag.Title</h1>
+    <div class="page-header-actions">
+        <a href="@Url.Action("add")" class="btn btn-primary">Add new IPS Entry</a>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name/Reference</th>
+            <th>Start IP Address</th>
+            <th>End IP Address</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in Model.Entries)
+        {
+            <tr>
+                <td>@entry.Name</td>
+                <td>@entry.StartIPAddress</td>
+                <td>@entry.EndIPAddress</td>
+                <td><a href="@Url.Action("delete", "ips", new { id = entry.Id })" class="hijax btn btn-danger btn-xs" data-parent="tr">Delete</a></td>
+            </tr>
+         }
+    </tbody>
+</table>

@@ -1,0 +1,46 @@
+﻿@model SaaSPro.Services.ViewModels.UsersUpdateSecurityQuestionsModel
+@{
+    ViewBag.Title = "Change Security Questions";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title</h1>
+</div>
+@using (Html.BeginForm("ChangeSecurityQuestions", "account", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id)
+    @Html.EditorFor(model => model.SecurityQuestions, new { SecurityQuestionOptions = Model.SecurityQuestionOptions })
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Change Security Questions" />
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        function updateSelects() {
+            $('form select option').removeAttr('disabled');
+
+            $('form select').each(function() {
+                var $mainSelect = $(this);
+                var $mainOption = $mainSelect.find('option:selected').html();
+                $('form select').not($mainSelect).each(function() {
+                    $(this).find('option').each(function () {
+                        var $option = $(this);
+                        if ($option.html() === $mainOption) {
+                            $option.attr('disabled', 'disabled');
+                            return false;
+                        }
+                    });
+                });
+            });
+        }
+
+        $(function() {
+            $('form select').change(updateSelects);
+            updateSelects();
+        });
+    </script>
+}

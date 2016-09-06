@@ -1,0 +1,6 @@
+﻿@model SaaSPro.Services.ViewModels.ApiTokensUpdateModel
+<div class="form-group">
+    @Html.LabelFor(model => model.Name)
+    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Name)
+</div>

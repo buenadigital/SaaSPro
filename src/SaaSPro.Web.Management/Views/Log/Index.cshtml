@@ -1,0 +1,59 @@
+﻿@model SaaSPro.Services.ViewModels.LogDashboardModel
+@{
+    ViewBag.Title = "Logs";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+
+<div class="row">
+    <div class="col-lg-7 col-md-6">
+        @foreach (var application in Model.Applications)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="font-size: 22px;">@application.Name</div>
+                </div>
+                <div class="panel-body">
+                    <div class="col-lg-5 col-md-6">
+                        Count : @application.Count
+                    </div>
+                    <div class="col-lg-5 col-md-6 text-right">
+                        @Html.ActionLink("View All", "List", new { name = @application.Name })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-lg-5 col-md-6">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Log Types</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                @foreach (var logType in Model.LogTypes)
+                {
+                    <tr>
+                        <td>
+                            @logType.Name
+                        </td>
+                        <td>@logType.Count
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div id="chart" class="panel">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            buildPieChart('chart','Log', @Html.Raw(Model.LogTypesJson));
+        });
+    </script>
+}

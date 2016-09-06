@@ -1,0 +1,25 @@
+﻿@model SaaSPro.Services.ViewModels.ApiTokensUpdateModel
+@{
+    ViewBag.Title = "Update API Token";
+}
+<div class="page-header">
+    <h1>@ViewBag.Title</h1>
+</div>
+@using (Html.BeginForm("update", "apitokens", new { id = Model.Id }, FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    @Html.Partial("_Form")
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Update API Token" />
+        <a href="#delete" type="submit" data-toggle="modal" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete API Token</a>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@Html.Partial("_Delete", new ConfirmationModel
+{
+    Title = "Delete API Token?",
+    Message = "Please confirm that you wish to delete this API Token.",
+    Url = Url.Action("delete", "apitokens", new { id = Model.Id })
+})

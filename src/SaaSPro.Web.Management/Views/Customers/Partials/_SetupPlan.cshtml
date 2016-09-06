@@ -1,0 +1,64 @@
+﻿@model SaaSPro.Services.ViewModels.PlanSetupModel
+
+<!-- Setup Plan Modal -->
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">Setup Plan</h4>
+    </div>
+    
+    @using (Html.BeginForm("SetupPaymentPlan", "customers", FormMethod.Post, new { id = "planForm"}))
+    {
+        <div class="modal-body">
+        @Html.HiddenFor(model => model.PaymentCustomerId)
+        @Html.HiddenFor(model => model.CustomerId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.StripePlanId)
+            <div class="controls">
+                @Html.DropDownListFor(model => model.StripePlanId, Model.StripePlanList, "Please select a plan", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StripePlanId)
+            </div>
+        </div>
+
+        <div class="col-xs-12" style="padding-left:0px;padding-right:0px;">
+            <div class="form-group col-xs-6" style="padding-left:0px;padding-right:10px;">
+                @Html.LabelFor(model => model.CreditCardNumber)
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.CreditCardNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CreditCardNumber)
+                </div>
+            </div>
+
+            <div class="form-group col-xs-6" style="padding-left:10px;padding-right:0px;">
+                @Html.LabelFor(model => model.Cvc)
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Cvc, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Cvc)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-xs-6" style="padding-left:0px;padding-right:10px;">
+            @Html.LabelFor(model => model.CardExpirationMonth)
+            <div class="controls">
+                @Html.DropDownListFor(model => model.CardExpirationMonth, Model.MonthsList, "Month", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CardExpirationMonth)
+            </div>
+        </div>
+
+        <div class="form-group col-xs-6" style="padding-left:10px;padding-right:0px;">
+            @Html.LabelFor(model => model.CardExpirationYear)
+            <div class="controls">
+                @Html.DropDownListFor(model => model.CardExpirationYear, Model.YearsList, "Year", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CardExpirationYear)
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    
+    <div id="planError" class="alert-error"></div>
+    <div class="modal-footer">
+        <a class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    }

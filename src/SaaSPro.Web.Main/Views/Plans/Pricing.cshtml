@@ -1,0 +1,33 @@
+﻿@using SaaSPro.Common
+@model SaaSPro.Services.ViewModels.PricingModel
+@{
+    ViewBag.Title = "Pricing";
+}
+
+<div class="starter-template">
+    <h1>Pricing</h1>
+    <p class="lead">Beautifully designed pricing tables so you can setup pricing tiers for your app. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.</p>
+</div>
+
+<div class="row">
+@foreach (var plan in Model.Plans)
+{
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="text-center">@plan.Name @Html.Raw(plan.Name.ToLower() == "medium" ? "<span class='badge badge'>Popular</span>" : string.Empty)</h2>
+            </div>
+            <div class="panel-body text-center">
+                <p class="lead" style="font-size: 40px"><strong>@string.Format("${0}/{1}", plan.Price.FormatSignificant(), plan.Period)</strong></p>
+            </div>
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item"><i class="icon-ok text-danger"></i>Feature 1</li>
+                <li class="list-group-item"><i class="icon-ok text-danger"></i>Feature 2</li>
+            </ul>
+            <div class="panel-footer">
+                <a class="btn btn-lg btn-block btn-success" href="@Url.Action("SignUp", "Plans", new { plan = plan.PlanCode.ToLower() })">Try Now, Free!</a>
+            </div>
+        </div>
+    </div>
+}
+</div>

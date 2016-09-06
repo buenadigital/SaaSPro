@@ -1,0 +1,45 @@
+﻿@model SchedulerListModel
+@{
+    ViewBag.Title = "Scheduler";
+}
+
+<div class="page-header">
+	<h2>@ViewBag.Title</h2>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Job Name</th>
+            <th>Customer</th>
+            <th>Repeat Interval</th>
+            <th>Next Fire Time</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var job in Model.Jobs.OrderBy(t => t.CustomerName))
+    {
+        <tr>
+            <td><a href="@Url.Action("update", new { groupName = job.GroupName, jobName = job.JobName })">@job.JobName</a></td>
+            <td><a href="@Url.Action("details", "customers", new { id = job.CustomerId })">@job.CustomerName</a></td>
+            <td>@job.RepeatInterval</td>
+            <td>@job.NextFireTime</td>
+            <td>@job.TriggerState</td>
+            <td>
+                @if (job.IsPaused)
+                {
+                    using (Html.BeginForm("resume", "scheduler", new { groupName = job.GroupName, jobName = job.JobName }))
+                    {
+                        <button type="submit" class="btn btn-small btn-success"><i class="icon-play icon-white"></i></button>
+                    }
+                } else {
+                    using (Html.BeginForm("pause", "scheduler", new { groupName = job.GroupName, jobName = job.JobName }))
+                    {
+                        <button type="submit" class="btn btn-small btn-inverse"><i class="icon-pause icon-white"></i></button>
+                    }  
+                }
+            </td>
+        </tr>
+    }
+</table>

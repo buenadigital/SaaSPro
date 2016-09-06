@@ -1,0 +1,28 @@
+﻿@model AuditLogDetailsModel
+@{
+    ViewBag.Title = "Audit Log";
+}
+<div class="page-header">
+    <h1>@ViewBag.Title</h1>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date/Time</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in Model.Entries)
+        {
+            <tr>
+                <td>@entry.TimeStamp</td>
+                <td>@entry.Username</td>
+                <td>@entry.Action</td>
+                <td>@entry.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

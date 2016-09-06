@@ -1,0 +1,44 @@
+﻿@using SaaSPro.Common.Web
+@model SaaSPro.Services.ViewModels.RolesListModel
+@{
+    ViewBag.Title = "Roles";
+}
+<div class="page-header with-actions">
+	<h1>@ViewBag.Title</h1>
+    <div class="page-header-actions">
+        <a href="@Url.Action("add")" class="btn btn-primary">Add a new role</a>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>User Type</th>
+            <th class="center">System Role</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var role in Model.Roles)
+    {
+        <tr>
+            <td>
+                @if (!role.SystemRole)
+                {
+                    <a href="@Url.Action("update", "roles", new { id = role.Id })">@role.Name</a>
+                }
+                else 
+                {
+                    @role.Name    
+                }
+            </td>
+            <td>@role.UserTypeName</td>
+            <td class="center"><input type="checkbox" @Html.If(role.SystemRole, "checked") disabled /></td>
+            <td>
+            @if (!role.SystemRole) 
+            {
+            <a href="@Url.Action("update", "roles", new { id = role.Id })" class="btn btn-default btn-xs">Update</a>
+            }
+            </td>
+        </tr>
+    }
+</table>

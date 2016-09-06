@@ -1,0 +1,66 @@
+﻿@model SaaSPro.Services.ViewModels.UsersUpdateModel
+@{
+    ViewBag.Title = "Update System User";
+}
+<div class="page-header">
+    <h1>@ViewBag.Title</h1>
+</div>
+@using (Html.BeginForm("update", "users", new { id = Model.Id }, FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Profile</legend>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName)
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName)
+            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email)
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email)
+            <span class="help-block">@Html.DescriptionFor(model => model.Email)</span>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Security</legend>
+        <div class="form-group">
+            @Html.Label("Reset Password", new { @class = "sr-only" })
+            <a href="#resetpassword" data-toggle="modal" class="btn btn-primary">Reset Password</a>
+        </div>
+        @Html.EditorFor(model => model.SecurityQuestions, new { SecurityQuestionOptions = Model.SecurityQuestionOptions })
+    </fieldset>
+    <fieldset>
+        <legend>Roles</legend>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SelectedRoles)
+            @Html.CheckBoxListFor(model => model.SelectedRoles, Model.Roles)
+            @Html.ValidationMessageFor(model => model.SelectedRoles)
+        </div>
+    </fieldset>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Update System User" />
+        <a href="#delete" data-toggle="modal" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete User</a>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@Html.Partial("_Delete", new ConfirmationModel
+{
+    Title = "Delete User?",
+    Message = "Please confirm that you wish to delete this user.",
+    Url = Url.Action("delete", "users", new { id = Model.Id }),
+})
+@Html.Partial("_ResetPassword", new UsersResetPasswordModel
+{
+    Id = Model.Id
+})

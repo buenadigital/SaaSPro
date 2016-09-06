@@ -1,0 +1,100 @@
+﻿@model SaaSPro.Services.ViewModels.CustomersProvisionModel
+@{
+    ViewBag.Title = "Provision Customer";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+   @using (Html.BeginForm("provision", "customers", FormMethod.Post, new { @class = "require-validation" , @id = "provision-form"}))
+   {
+        @Html.AntiForgeryToken()
+            <fieldset>
+                <div class='form-row'>
+                    <div class='col-xs-4 form-group required'>
+                        <label class='control-label'>URL</label>
+                        @Html.TextBoxFor(m => m.Domain, new { @class = "form-control"})
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.Domain)</div>
+                    </div>
+                    <div class='col-xs-2'>
+                        <span style="float: left; text-align: left; margin-top: 30px; font-size: large;">@System.Configuration.ConfigurationManager.AppSettings["SiteDomain"].ToString()</span>
+                    </div>
+                    <div class='col-xs-3'>
+                        <div id="UserNameResult" style="float: right; text-align: right; margin-top: 30px; font-size: large; font-weight: bold"></div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-9 form-group company required'>
+                        <label class='control-label'>Company or Organization</label>
+                        @Html.TextBoxFor(m => m.Company, new { @class = "form-control"})
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.Company)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-4 form-group firstname required'>
+                        <label class='control-label'>First Name</label>
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control"})
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.FirstName)</div>
+                    </div>
+                    <div class='col-xs-1 form-group'>
+                        &nbsp;
+                    </div>
+                    <div class='col-xs-4 form-group cvc required'>
+                        <label class='control-label'>Last Name</label>
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control"})
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.LastName)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-9 form-group email required'>
+                        <label class='control-label'>Email</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control"})
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.Email)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-9 form-group password required'>
+                        <label class='control-label'>Password</label>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control"})
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.Password)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-9 form-group validate password required'>
+                        <label class='control-label'>Validate Password</label>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control"})
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.ConfirmPassword)</div>
+                    </div>
+                </div>
+            </fieldset>
+    
+          <div class="form-actions">
+            <input type="submit" class="btn btn-primary margintopbtm" value="Provision Customer" />
+        </div>
+    }
+    <div class="row">&nbsp;</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $('#Domain').blur(function () {
+            var url = '@Url.Content("~/customers/CheckUserName")';
+            var name = $('#Domain').val();
+            if (name != "") {
+                $.get(url, { input: name }, function (data) {
+                    if (data == "Available") {
+                        $("#UserNameResult").html("<span style='color:green'>Available</span>");
+                        $("#Domain").css('background-color', '');
+                    }
+                    else {
+                        $("#UserNameResult").html("<span style='color:red'>Not Available</span>");
+                        $("#Domain").css('background-color', '#e97878');
+                    }
+                });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,45 @@
+﻿@model SaaSPro.Services.ViewModels.ContactModel
+
+@{
+    ViewBag.Title = "Have any questions?";
+}
+
+
+<div class="starter-template">
+    <h1>Have any questions?</h1>
+</div>
+
+<div class="row">
+    <div class="contact-form">
+        @using (Html.BeginForm("Index", "ContactUs", FormMethod.Post, new { @class = "require-validation" , @id = "contact"}))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-sm-6 centered">
+                <fieldset>
+                    <div class='form-row'>
+                        <div class='col-xs-12 form-group email required'>
+                            <label class='control-label'>Email Address</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            <div class="validation-errors">@Html.ValidationMessageFor(m => m.Email)</div>
+                        </div>
+                    </div>
+                    <div class='form-row'>
+                        <div class='col-xs-12 form-group message required'>
+                            <label class='control-label'>Message</label>
+                            @Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
+                            <div class="validation-errors">@Html.ValidationMessageFor(m => m.Message)</div>
+                        </div>
+
+                    </div>
+                    <div class='form-row'>
+                        <div class='col-md-12 form-group'>
+                            <input type="submit" value="Contact Us &raquo;" class="btn btn-lg btn-success btn-block contactus-btn" />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        }
+    </div>
+</div>
+

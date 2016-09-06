@@ -1,0 +1,38 @@
+﻿@model SchedulerUpdateModel
+@{
+    ViewBag.Title = "Update Job";
+}
+<div class="page-header">
+    <h2>@ViewBag.Title</h2>
+</div>
+@using (Html.BeginForm("update", "scheduler", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Name)
+    <fieldset>
+        <legend>Schedule</legend>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RepeatInterval)
+            @Html.TextBoxFor(model => model.RepeatInterval, new { @class = "form-control", type = "number", step = "1" })
+            @Html.ValidationMessageFor(model => model.RepeatInterval)
+        </div>
+    </fieldset>
+        <fieldset>
+        <legend>Job Properties</legend>
+        @foreach (var property in Model.Properties)
+        {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Properties[property.Key], property.Key.SeparatePascalCase())
+            @Html.TextBoxFor(model => model.Properties[property.Key], new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Properties[property.Key])
+        </div>
+        }
+    </fieldset>
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Update Job" />
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

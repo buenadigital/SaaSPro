@@ -1,0 +1,163 @@
+﻿@using System.Globalization
+@using SaaSPro.Common.Web
+@using SaaSPro.Web.Management.ViewModels.CustomerPayments
+@model SaaSPro.Services.ViewModels.CustomerPaymentsModel
+
+@{
+    ViewBag.Title = "Customer Payments";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+
+<!-- modal placeholder-->
+<div id='setupPlanModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='plan-container'></div>
+        </div>
+    </div>
+</div>
+
+<div id='refundModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='refund-container'></div>
+        </div>
+    </div>
+</div>
+
+    <div>
+        <fieldset class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">Customer</label>
+                <div class="controls">
+                    @Html.TextBox("Customer", string.Format("{0} ({1})", Model.CustomerName, Model.CustomerEmail), new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Payment Customer Id</label>
+                <div class="controls">
+                    @if (string.IsNullOrEmpty(Model.PaymentCustomerId))
+                    {
+                        <button id="btnInitStripe" class="btn btn-primary margintopbtm" type="button">Setup</button>
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.PaymentCustomerId, new { @class = "form-control" })
+                    }
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Plan</label>
+                <div class="controls">
+                    @if (Model.CustomerPlan == null)
+                    {
+                        <button id="btnInitStripePlan" class="btn btn-primary margintopbtm @Html.If(string.IsNullOrEmpty(Model.PaymentCustomerId), "disabled")" type="button">Subscribe to plan</button>
+                        <div id="stripePlanErrorMessage" class="alert alert-error" style="display: none"></div>
+                    }
+                    else
+                    {
+                        var compactPlan = new CompactPlan(Model.CustomerPlan);
+                        @Html.TextBox("Plan", compactPlan.PlanName, new { @class = "form-control" })
+                        <br />
+                        <button id="btnInitStripePlan" class="btn btn-primary @Html.If(string.IsNullOrEmpty(Model.PaymentCustomerId), "disabled")" type="button">Change plan</button>
+                        <a href="#delete-@Model.CustomerId" data-toggle="modal" class="btn btn-mini btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i> Cancel Plan</a>
+                        
+                        @Html.Partial("_Delete", new DeleteConfirmationModel
+                        {
+                            Id = Model.CustomerId,
+                            Title = "Confirm plan cancellation",
+                            Message = "Are you sure you wish to cancel the plan subscription?",
+                            Url = Url.Action("closeplan", "customers", new { id = Model.CustomerId }),
+                        })
+                    }
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <br />
+    <div>
+        <fieldset>
+            <legend>Payments</legend>
+            <div>
+                @if (Model.StripeChargesList != null && Model.StripeChargesList.Any())
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th class="cb">Amount</th>
+                                <th class="cb">Paid</th>
+                                <th class="cb">Refunded</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        @foreach (var payment in Model.StripeChargesList)
+                        {
+                            <tr>
+                                <td>@payment.Created.ToString(CultureInfo.InvariantCulture)</td>
+                                <td>@string.Format("{0:0.00}", payment.Amount > 0 ? ((decimal)payment.Amount / 100) : (decimal)0.00)</td>
+                                <td class="cb">
+                                    <input type="checkbox" @Html.If(payment.Paid, "checked=checked") disabled="disabled" />
+                                </td>
+                                <td class="cb">
+                                    @if (payment.AmountRefunded > 0)
+                                    {
+                                        <div>Refunded : @String.Format("{0:0.00}", (payment.AmountRefunded > 0) ? ((decimal)payment.AmountRefunded / 100) : (decimal)0.00)</div>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" @Html.If(payment.Refunded, "checked=checked") disabled="disabled" />
+                                    }
+
+                                </td>
+                                <td>
+                                    <button data-payment-id="@payment.Id" class="payment-btn btn btn-mini @Html.If(payment.Refunded, "disabled")">Refund</button>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <div class="info">No payments yet.</div>
+                }
+            </div>
+        </fieldset>
+    </div>
+    <hr />
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('#btnInitStripe').click(function () {
+                location.href = '@Url.Action("SetupStripe", new { customerId = Model.CustomerId })';
+            });
+
+            $('#btnInitStripePlan').click(function () {
+                $.get('@Url.Action("SetupPaymentPlan")/' +
+                    '?PaymentCustomerId=' + '@Model.PaymentCustomerId' +
+                    '&CustomerId=' + '@Model.CustomerId',
+                    function (data) {
+                        $('#plan-container').html(data);
+                        $('#setupPlanModal').modal('show');
+                    });
+            });
+
+            $('.payment-btn').click(function () {
+                $.get('@Url.Action("RefundPayment")/' + '?paymentId=' + $(this).data('payment-id') + '&CustomerId=' + '@Model.CustomerId',
+                function (data) {
+                    $('#refund-container').html(data);
+                    $('#refundModal').modal('show');
+                });
+            });
+        });
+    </script>
+}

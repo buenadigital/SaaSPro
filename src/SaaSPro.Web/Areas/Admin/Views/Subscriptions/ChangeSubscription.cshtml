@@ -1,0 +1,89 @@
+﻿@using System.Globalization
+@model SaaSPro.Services.ViewModels.ChangeSubscriptionModel
+
+@{
+    ViewBag.Title = "Subscription";
+
+    var months = new List<SelectListItem>
+	{
+	    new SelectListItem { Value = string.Empty, Text = "Expiration month" },
+        new SelectListItem { Value = "1", Text = "1" },
+        new SelectListItem { Value = "2", Text = "2" },
+        new SelectListItem { Value = "3", Text = "3" },
+        new SelectListItem { Value = "4", Text = "4" },
+        new SelectListItem { Value = "5", Text = "5" },
+        new SelectListItem { Value = "6", Text = "6" },
+        new SelectListItem { Value = "7", Text = "7" },
+        new SelectListItem { Value = "8", Text = "8" },
+        new SelectListItem { Value = "9", Text = "9" },
+        new SelectListItem { Value = "10", Text = "10" },
+        new SelectListItem { Value = "11", Text = "11" },
+        new SelectListItem { Value = "12", Text = "12" },
+	};
+
+    var years = new List<SelectListItem>
+	{
+	    new SelectListItem { Value = string.Empty, Text = "Expiration year" }
+	};
+    var currentYear = DateTime.Now.Year;
+    for (var i = currentYear; i < currentYear + 10; i++)
+    {
+        years.Add(new SelectListItem { Value = i.ToString(CultureInfo.InvariantCulture), Text = i.ToString(CultureInfo.InvariantCulture) });
+    }
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title</h1>
+</div>
+
+@using (Html.BeginForm("change-subscription", "subscriptions", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Details</legend>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PlanId)
+            @Html.DropDownListFor(model => model.PlanId, Model.Plans.OrderByDescending(p => p.Price).Select(p => new SelectListItem { Value = p.PlanCode, Text = string.Format("{0} (${1}/{2})", p.Name, p.Price.FormatSignificant(), p.Period) }), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PlanId)
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.CardNumber)
+            @Html.TextBoxFor(model => model.CardNumber, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CardNumber)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExpirationMonth)
+            @Html.DropDownListFor(model => model.ExpirationMonth, months, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ExpirationMonth)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExpirationYear)
+            @Html.DropDownListFor(model => model.ExpirationYear, years, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ExpirationYear)
+        </div> 
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.SecurityCode)
+            @Html.TextBoxFor(model => model.SecurityCode, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SecurityCode)
+        </div>
+        
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.NameOnCard)
+            @Html.TextBoxFor(model => model.NameOnCard, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.NameOnCard)
+        </div>*@
+    </fieldset>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Update Subscription" />
+    </div>
+}
+
+@Html.Partial("_Cancel", new ConfirmationModel
+{
+    Title = "Cancel Subscription?",
+    Message = "Please confirm that you wish to cancel subscription.",
+    Url = Url.Action("cancel-subscription", "subscriptions"),
+})

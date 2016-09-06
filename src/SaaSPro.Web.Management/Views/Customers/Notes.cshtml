@@ -1,0 +1,87 @@
+﻿@model SaaSPro.Services.ViewModels.NotesViewModel
+
+@{
+    ViewBag.Title = "Customer Notes";
+}
+
+@section scripts{
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/summernote.css">
+    <script type="text/javascript" src="~/Scripts/summernote/summernote.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.summernote').summernote({ height: 150 });
+        });
+    </script>
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+    <div>
+        <fieldset class="form-horizontal">
+            @using (Html.BeginForm("add-note", "Customers", FormMethod.Post, new { @class = "require-validation" , @id = "add-note-form"}))
+            {
+                @Html.HiddenFor(model => model.CustomerNote.CustomerId)
+                <div class="control-group">
+                    <div class='form-group required'>
+                        @Html.TextAreaFor(model => model.CustomerNote.NoteContent, new { @class = "summernote form-control", rows = "20", cols = "10" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(model => model.CustomerNote.NoteContent)</div>
+                        <br />
+                        <button id="btnAddNote" class="btn btn-primary" type="submit">Add note</button>
+                    </div>
+                </div>
+            }
+        </fieldset>
+    </div>
+    <br />
+    <div>
+        <fieldset>
+            <legend>Notes</legend>
+            <div>
+                @if (Model.Notes != null && Model.Notes.Any())
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Note</th>
+                                <th class="cb" width="200">Date</th>
+                                <th width="100"></th>
+                            </tr>
+                        </thead>
+                        @foreach (var note in Model.Notes)
+                        {
+                            <tr>
+                                <td>@Html.Raw(@note.NoteContent)</td>
+                                <td class="cb">
+                                    @note.CreatedOn.ToString()
+                                </td>
+                                <td>
+                                    <a href="#delete-@note.Id" data-toggle="modal" class="btn btn-mini btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i> Delete Note</a>
+                                    @Html.Partial("_Delete", new DeleteConfirmationModel
+                                    {
+                                        Id = note.Id,
+                                        Title = "Delete Note?",
+                                        Message = "Please confirm that you wish to <strong>delete</strong> the note. This action will be permanent.",
+                                        Url = Url.Action("delete-note", "customers", new { id = note.Id, customerId = Model.CustomerNote.CustomerId }),
+                                    })
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <div class="pagination">
+                        @Html.PagerFor(model => model.Notes, x => Url.Action("Notes", "Customers", new { id = Model.CustomerNote.CustomerId, page = x, pageSize = Model.Notes.PageSize }))
+                    </div>
+                }
+                else
+                {
+                    <div class="info">No notes yet.</div>
+                }
+            </div>
+        </fieldset>
+    </div>
+    <hr />
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

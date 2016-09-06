@@ -1,0 +1,25 @@
+﻿@model SaaSPro.Services.ViewModels.RefundModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title" id="myModalLabel">Refund</h4>
+</div>
+@using (Html.BeginForm("RefundPayment", "customers", FormMethod.Post, new { id = "refundForm", @class = "form-horizontal" }))
+{
+    <div class="modal-body">
+        @Html.HiddenFor(model => model.PaymentId)
+        @Html.HiddenFor(model => model.CustomerId)
+        <div class="form-group col-xs-6">
+            @Html.LabelFor(model => model.Amount)
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.Amount)
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+        <button type="submit" class="btn btn-primary">Refund</button>
+    </div>
+}

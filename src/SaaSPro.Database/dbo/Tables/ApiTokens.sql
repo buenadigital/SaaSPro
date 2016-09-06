@@ -1,0 +1,15 @@
+﻿CREATE TABLE [dbo].[ApiTokens] (
+    [Id]       UNIQUEIDENTIFIER NOT NULL,
+    [Name]     NVARCHAR (255)   NOT NULL,
+    [Token]    NVARCHAR (255)   NOT NULL,
+    [CustomerId] UNIQUEIDENTIFIER NOT NULL,
+	[CreatedBy] UNIQUEIDENTIFIER NULL,
+	[CreatedOn] DATETIME NULL DEFAULT GETDATE(), 
+	[UpdatedBy] UNIQUEIDENTIFIER NULL, 
+	[UpdatedOn] DATETIME NULL DEFAULT GETDATE(),
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_ApiTokens_Customers] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers] ([Id]) ON DELETE CASCADE ON UPDATE CASCADE, 
+    CONSTRAINT [FK_ApiTokensCreated_ToUsers] FOREIGN KEY ([CreatedBy]) REFERENCES [Users]([Id]), 
+    CONSTRAINT [FK_ApiTokensUpdated_ToUsers] FOREIGN KEY ([UpdatedBy]) REFERENCES [Users]([Id])
+);
+

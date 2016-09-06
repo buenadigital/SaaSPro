@@ -1,0 +1,43 @@
+﻿@model SchedulerListModel
+@{
+    ViewBag.Title = "Scheduler";
+}
+<div class="page-header">
+	<h1>@ViewBag.Title</h1>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Job Name</th>
+            <th>Job Description</th>
+            <th>Repeat Interval</th>
+            <th>Next Fire Time</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var job in Model.Jobs)
+    {
+        <tr>
+            <td><a href="@Url.Action("update", new { id = job.JobName })">@job.JobName</a></td>
+            <td>@job.JobDescription</td>
+            <td>@job.RepeatInterval</td>
+            <td>@job.NextFireTime</td>
+            <td>@job.TriggerState</td>
+            <td>
+                @if (job.IsPaused)
+                {
+                    using (Html.BeginForm("resume", "scheduler", new { jobName = job.JobName }))
+                    {
+                        <button type="submit" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-play"></i></button>
+                    }
+                } else {
+                    using (Html.BeginForm("pause", "scheduler", new { jobName = job.JobName }))
+                    {
+                        <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-pause"></i></button>
+                    }  
+                }
+            </td>
+        </tr>
+    }
+</table>

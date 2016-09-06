@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[Notes]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+	[CustomerId] UNIQUEIDENTIFIER NOT NULL, 
+    [Note] TEXT NOT NULL, 
+    [CreatedBy] UNIQUEIDENTIFIER NULL,
+	[CreatedOn] DATETIME NULL DEFAULT GETDATE(), 
+	[UpdatedBy] UNIQUEIDENTIFIER NULL, 
+	[UpdatedOn] DATETIME NULL DEFAULT GETDATE(),
+    CONSTRAINT [FK_Notes_ToCustomers] FOREIGN KEY ([CustomerId]) REFERENCES [Customers]([Id]), 
+    CONSTRAINT [FK_NotesCreated_ToUsers] FOREIGN KEY ([CreatedBy]) REFERENCES [Users]([Id]), 
+    CONSTRAINT [FK_NotesUpdated_ToUsers] FOREIGN KEY ([UpdatedBy]) REFERENCES [Users]([Id])
+)

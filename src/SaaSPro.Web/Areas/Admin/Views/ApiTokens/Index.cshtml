@@ -1,0 +1,29 @@
+﻿@model SaaSPro.Services.ViewModels.ApiTokensListModel
+@{
+    ViewBag.Title = "API Tokens";
+}
+<div class="page-header with-actions">
+    <h1>@ViewBag.Title</h1>
+    <div class="page-header-actions">
+        <a href="@Url.Action("add")" class="btn btn-primary">Add new API Token</a>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name/Reference</th>
+            <th>Token</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var token in Model.Tokens)
+        {
+            <tr>
+                <td><a href="@Url.Action("update", "apitokens", new { id = token.Id })">@token.Name</a></td>
+                <td>@token.Token</td>
+                <td><a href="@Url.Action("update", "apitokens", new { id = token.Id })" class="btn btn-default btn-xs">Update</a></td>
+            </tr>
+         }
+    </tbody>
+</table>

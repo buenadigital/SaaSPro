@@ -1,0 +1,129 @@
+﻿@using SaaSPro.Services.ViewModels
+@using System.Web.Mvc
+
+@{
+    ViewBag.Title = "Customers";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+    <p>
+        <a href="@Url.Action("provision")" class="btn btn-primary">Provision Customer</a>
+    </p>
+
+    @(Html.BootstrapTable<CustomersListModel.CustomerSummary>(Url.Action("GetCustomersData"), TablePaginationOption.server)
+
+          .Apply(TableOption.pageSize, 10)
+          .Apply(TableOption.search, TableOption.showRefresh, TableOption.showColumns, TableOption.showLoading, TableOption.striped)
+
+          .Apply(t => t.Id, ColumnOption.visible, false)
+          .Apply(t => t.Id, ColumnOption.formatter, "EditLinkFormat")
+          .Apply(t => t.Id, ColumnOption.sortable)
+          .Apply(t => t.Company, ColumnOption.visible, false)
+          .Apply(t => t.Company, ColumnOption.formatter, "EditLinkFormat")
+          .Apply(t => t.Company, ColumnOption.sortable)
+
+          .Apply(t => t.FullName, ColumnOption.title, "Name")
+          .Apply(t => t.FullName, ColumnOption.sortable)
+          .Apply(t => t.FullName, ColumnOption.formatter, "EditLinkFormat")
+
+          .Apply(t => t.Hostname, ColumnOption.title, "Hostname")
+          .Apply(t => t.Hostname, ColumnOption.sortable)
+          .Apply(t => t.Hostname, ColumnOption.formatter, "HostLinkFormat")
+
+          .Apply(t => t.Enabled, ColumnOption.align_center, ColumnOption.sortable)
+          .Apply(t => t.Enabled, ColumnOption.formatter, "EnabledFormatter")
+          .Apply(t => t.Enabled, ColumnOption.title, "Enabled")
+
+
+          .Apply(t => t.AdminEmail, ColumnOption.title, "Email")
+          .Apply(t => t.AdminEmail, ColumnOption.sortable)
+          .Apply(t => t.AdminEmail, ColumnOption.formatter, "EmailLinkFormat")
+
+          .Apply(t => t.CreatedOn, ColumnOption.align_center, ColumnOption.sortable)
+          .Apply(t => t.CreatedOn, ColumnOption.title, "Date Created")
+          .Apply(t => t.CreatedOn, ColumnOption.formatter, "DateFormatter")
+
+
+          .Column().Apply(ColumnOption.title, "Action")
+          .Apply(ColumnOption.formatter, "menuFormatter"))
+
+    @Html.Partial("_Delete", new DeleteConfirmationModel
+    {
+        Name = "customer",
+        Title = "Delete Customer?"
+    })
+
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+
+        function menuFormatter(value, row, index) {
+            return [
+                '<a href="@Url.Action("notes", "customers", new {id = "{0}"})" data-toggle="modal" class="btn btn-mini btn-info margintopbtm"><i class="glyphicon glyphicon-comment"></i> Notes</a>',
+                '<a href="@Url.Action("payments", "customers", new {id = "{0}"})" class="btn btn-mini btn-success"><i class="glyphicon glyphicon-file"></i> Payments</a>',
+                    '<a href="#{0}" onclick="ShowDeleteModalWindow(\'' + row["Id"] + '\' ,\'' + row["FullName"] + '\' ); " class=" btn btn-mini btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i> Delete</a>'
+            ].join(' ').replace(/%7B0%7D/g, row["Id"]);   
+        }
+
+        function EnabledFormatter(value, row, index) {
+            return [
+                '<span style=""><input type="checkbox" ' + (value ? ' checked=checked' :
+                    '') + ' disabled="disabled" /></span>'
+            ];
+        }
+
+        function EditLinkFormat(value, row, index) {
+            return [
+                '<a href="@Url.Action("details", "customers", new {id = "{0}"})"></i>' + value + '</a>'
+            ].join(' ').replace(/%7B0%7D/g, row["Id"]);
+        }
+
+        function HostLinkFormat(value, row, index) {
+            var customerUrl = value + '@System.Configuration.ConfigurationManager.AppSettings["SiteDomain"]';
+            return [
+                '<a href="http://' + customerUrl + '" target="_blank">' + value + '</a>'
+            ];
+        }
+
+        function EmailLinkFormat(value, row, index) {
+            return [
+                '<a href="mailto:' +  value + '">'+ value + '</a>'
+            ];
+        }
+
+        function DateFormatter(value, row, index) {
+            value = new Date(parseInt(value.substr(6)));
+            value = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+            return [
+                EditLinkFormat(value, row, index)
+            ];
+        }
+
+        function ShowDeleteModalWindow(customerId, customerFullName) {
+            $('.modal').find(".modal-body p").html('Please confirm that you wish to <strong>delete</strong> the <strong>' + customerFullName + '</strong> Customer. This action will be permanent.');
+
+            var action = '@Url.Action("delete", "customers", new {id = "{0}"})';
+            action = action.replace(/%7B0%7D/g, customerId);
+
+            $('.modal').find('.modal-footer form')[0].setAttribute('action', action);
+            $(".modal").modal("show");
+        }
+
+        $(document).ready(function () {
+            $('.bootstrap-table').find('.search').find('input').autocomplete({
+                source: '@Url.Action("CustomerFullNameAutocomplete")',
+                messages: {
+                    noResults: '',
+                    results: function () { }
+                },
+                autoFocus: true,
+                create: function () {
+                    $('.ui-helper-hidden-accessible').remove();
+                }
+            });
+        })
+    </script>
+}

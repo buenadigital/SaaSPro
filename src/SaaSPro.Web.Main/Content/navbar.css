@@ -1,0 +1,19 @@
+﻿body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+
+.centered{
+    float: none;
+    margin: 0 auto;
+}

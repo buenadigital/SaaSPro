@@ -1,0 +1,32 @@
+﻿@model SaaSPro.Domain.Log4NetLog
+@{
+    ViewBag.Title = "Log Details";
+}
+<h1 class="page-header">@ViewBag.Title</h1>
+
+<div class="panel-body">
+    <fieldset>
+        <div class="form-group">
+            <b>Date :</b> @Model.Date
+        </div>
+        @*<div class="form-group">
+            <b>Exception :</b> @Model.Exception
+        </div>*@
+        <div class="form-group">
+            <b>Level :</b> @Model.Level
+        </div>
+        <div class="form-group">
+            <b>Logger :</b> @Model.Logger
+        </div>
+        <div class="form-group">
+           <b>Message :</b> @Model.Message
+        </div>
+        <div class="form-group">
+            <b>Thread :</b> @Model.Thread
+        </div>
+    </fieldset>
+</div>
+<div class="row">&nbsp;</div>
+<div>
+    @Html.ActionLink("Back to List", "List", new { name = ViewBag.Name })
+</div>

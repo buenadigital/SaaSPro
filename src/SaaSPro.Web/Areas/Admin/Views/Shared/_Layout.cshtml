@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/views/shared/_layout.cshtml";
+}
+@section scripts {
+    @RenderSection("scripts", false)
+}
+<div class="dashboard-admin row">
+    <div class="col-md-3">
+        <div class="list-group navigation">
+            <a href="@Url.Action("index", "dashboard")" title="Dashboard" class="list-group-item">Dashboard</a>
+
+            <span class="list-group-item list-group-item-header">User Management</span>
+            <a href="@Url.Action("index", "users")" title="Users" class="list-group-item">Users</a>
+            <a href="@Url.Action("index", "roles")" title="Roles" class="list-group-item">Roles</a>
+
+            <span class="list-group-item list-group-item-header">Configuration</span>
+            <a href="@Url.Action("index", "referencelists")" title="Reference Lists" class="list-group-item">Reference Lists</a>
+            <a href="#" title="Settings" class="list-group-item">Settings</a>
+
+            <span class="list-group-item list-group-item-header">System</span>
+            <a href="@Url.Action("index", "subscriptions")" title="Subscription" class="list-group-item">Subscription</a>
+            <a href="@Url.Action("index", "apitokens")" title="API" class="list-group-item">API Tokens</a>
+            <a href="@Url.Action("index", "ips")" title="IP Security" class="list-group-item">IP Security</a>
+            <a href="@Url.Action("index", "notifications")" title="Notifications" class="list-group-item">Notifications</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        @RenderBody()
+    </div>
+</div>

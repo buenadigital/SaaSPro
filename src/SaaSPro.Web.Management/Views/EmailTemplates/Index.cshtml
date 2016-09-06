@@ -1,0 +1,66 @@
+﻿@model SaaSPro.Services.ViewModels.EmailTemplateListModel
+
+@{
+    ViewBag.Title = "Email Templates";
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('body').on('click', 'a[data-toggle="modal"]', function (e) {
+                var id = $(this).data("template-id");
+                var url = '@Url.Action("GetTemplateContent")/' + id;
+
+                $.get(url, function (data) {
+                    $('#templatePreviewModal').html(data).modal();
+                });
+
+                e.preventDefault();
+            });
+        });
+    </script>
+}
+
+<style>
+    .modal-dialog {
+        width: 900px;
+    }
+</style>
+
+<h2>Email Templates</h2>
+<hr />
+<table class="table table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>Template Name</th>
+            <th>Date Created</th>
+            <th>Date Updated</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var template in Model.EmailTemplates)
+    {
+        <tr>
+            <td><a href="@Url.Action("details", "email-templates", new { id = template.Id })">@template.TemplateName</a></td>
+            <td><a href="@Url.Action("details", "email-templates", new { id = template.Id })">@template.CreatedOn</a></td>
+            <td><a href="@Url.Action("details", "email-templates", new { id = template.Id })">@template.UpdatedOn</a></td>
+            <td width="100">
+                <a data-toggle="modal" id="btnPreview" data-template-id="@template.Id" href="#" class="btn btn-mini btn-default margintopbtm modalButtonItem"><i class="glyphicon glyphicon-eye-open"></i> Preview</a>
+                @*<a href="#delete-@template.Id" data-toggle="modal" class="btn btn-mini btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+                @Html.Partial("_Delete", new DeleteConfirmationModel
+                {
+                    Id = template.Id,
+                    Title = "Delete Email Template?",
+                    Message = "Please confirm that you wish to <strong>delete</strong> the <strong>'" + template.TemplateName + "'</strong> email template. This action will be permanent.",
+                    Url = Url.Action("delete", "email-templates", new { id = template.Id }),
+                })*@
+            </td>
+        </tr>
+    }
+</table>
+<div class="pagination">
+    @Html.PagerFor(model => model.EmailTemplates, x => Url.Action("index", new { page = x, pageSize = Model.EmailTemplates.PageSize }))
+</div>
+<div id="templatePreviewModal" class="modal fade">
+</div>

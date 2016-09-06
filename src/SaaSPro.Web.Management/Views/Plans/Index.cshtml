@@ -1,0 +1,48 @@
+﻿@model SaaSPro.Services.ViewModels.PlansListModel
+@{
+    ViewBag.Title = "Plans";
+}
+
+
+<h2>@ViewBag.Title</h2>
+<hr/>
+<div>
+    @*<p>
+        <a href="@Url.Action("add")" class="btn btn-primary">Add Plan</a>
+    </p>
+
+    <hr />*@
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Plan Code</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var plan in Model.Plans)
+        {
+            <tr>
+                <td><a href="@Url.Action("update", "plans", new { id = plan.Id })">@plan.Name</a></td>
+                <td>@plan.PlanCode</td>
+                <td>@string.Format("{0:C}", plan.Price)</td>
+                <td width="100">
+                    @*<a href="@Url.Action("update", "plans", new { id = plan.Id })" class="btn btn-mini btn-primary">Details</a>
+                    <a href="#delete-@plan.Id" data-toggle="modal" class="btn btn-mini btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i> Delete Plan</a>
+                    @Html.Partial("_Delete", new DeleteConfirmationModel
+                    {
+                        Id = plan.Id,
+                        Title = "Delete Plan?",
+                        Message = "Please confirm that you wish to delete the <strong>" + plan.Name + "</strong> plan. ",
+                        Url = Url.Action("delete", "plans", new { id = plan.Id }),
+                    })*@
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="pagination">
+        @Html.PagerFor(model => model.Plans, x => Url.Action("index", new { page = x, pageSize = Model.Plans.PageSize }))
+    </div>
+</div>

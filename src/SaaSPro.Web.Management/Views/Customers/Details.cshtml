@@ -1,0 +1,90 @@
+﻿@using SaaSPro.Services.ViewModels
+@model CustomersDetailsModel
+@{
+    ViewBag.Title = "Customer Detail";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+    @using (Html.BeginForm("details", "customers", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        
+        <fieldset>
+            <div class='form-row'>
+                <div class='col-xs-4 form-group required'>
+                    <label class='control-label'>URL</label>
+                    @Html.TextBoxFor(m => m.Hostname, new { @class = "form-control" })
+                    <div class="validation-errors">@Html.ValidationMessageFor(m => m.Hostname)</div>
+                </div>
+                <div class='col-xs-2'>
+                    <span style="float: left; text-align: left; margin-top: 30px; font-size: large;">@System.Configuration.ConfigurationManager.AppSettings["SiteDomain"].ToString()</span>
+                </div>
+                <div class='col-xs-3'>
+                    <div id="UserNameResult" style="float: right; text-align: right; margin-top: 30px; font-size: large; font-weight: bold"></div>
+                </div>
+            </div>
+            <div class='form-row'>
+                <div class='col-xs-9 form-group company required'>
+                    <label class='control-label'>Company or Organization</label>
+                    @Html.TextBoxFor(m => m.Company, new { @class = "form-control" })
+                    <div class="validation-errors">@Html.ValidationMessageFor(m => m.Company)</div>
+                </div>
+            </div>
+            <div class='form-row'>
+                <div class='col-xs-4 form-group fullname required'>
+                    <label class='control-label'>Full Name</label>
+                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                    <div class="validation-errors">@Html.ValidationMessageFor(m => m.FullName)</div>
+                </div>
+            </div>
+            <div class='form-row'>
+                <div class='col-xs-9 form-group email required'>
+                    <label class='control-label'>Email</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    <div class="validation-errors">@Html.ValidationMessageFor(m => m.Email)</div>
+                </div>
+            </div>
+            <div class='form-row'>
+                <div class='col-xs-9 form-group validate enabled required'>
+                    <div class="checkbox">
+                        <label class='control-label'>
+                            @Html.CheckBoxFor(m => m.Enabled, new { @checked = Model.Enabled }) Enabled
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary margintopbtm" value="Update Customer" />
+            <a href="#resetpassword" data-toggle="modal" class="btn btn-warning">Reset Password</a>
+            <a href="#delete-@Model.Id" data-toggle="modal" class="btn btn-mini btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete Customer</a>
+        </div>
+    }
+    <div class="row">&nbsp;</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    @Html.Partial("_Delete", new DeleteConfirmationModel
+    {
+        Id = Model.Id,
+        Title = "Delete Customer?",
+        Message = "Please confirm that you wish to <strong>delete</strong> this Customer. This action will be permanent.",
+        Url = Url.Action("delete", "customers", new { id = Model.Id }),
+    })
+
+    @Html.Partial("_ResetPassword", new UsersResetPasswordModel
+    {
+        Id = Model.Id
+    })
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+      
+    </script>
+}

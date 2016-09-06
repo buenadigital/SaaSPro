@@ -1,0 +1,13 @@
+﻿@model SaaSPro.Services.ViewModels.ReferenceListsAddItemModel
+@using (Html.BeginForm("additem", "referencelists", new { id = Model.ReferenceListId }, FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Value)
+        @Html.TextBoxFor(model => model.Value, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Value)
+    </div>
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Add Item" />
+    </div>
+}

@@ -1,0 +1,147 @@
+﻿@using System.Configuration
+@model SaaSPro.Services.ViewModels.SignUpModel
+
+@{
+    ViewBag.Title = Model.PlanName + " Plan Sign Up!";
+}
+
+<div class="starter-template">
+    <h1>@Model.PlanName Sign Up!</h1>
+</div>
+<div class="container">
+    @using (Html.BeginForm("SignUp", "Plans", new { plan = Request.QueryString["plan"] }, FormMethod.Post, new { @class = "require-validation", @id = "payment-form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-sm-6 centered">
+            @Html.ValidationSummary(true)
+            <fieldset>
+                <legend>Account  Information</legend>
+                <div class='form-row'>
+                    <div class="form-group">
+                        <div class='col-xs-12'>
+                            <label class='control-label'>URL</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class='col-xs-6' style="padding-right: 0">
+                            @Html.TextBoxFor(m => m.Domain, new { @class = "form-control" })
+                            <div class="validation-errors">@Html.ValidationMessageFor(m => m.Domain)</div>
+                        </div>
+                        <div class='col-xs-6' style="padding: 0;">
+                            <div class='col-xs-6' style="width: 115px; font-size: large; padding-right: 0;">
+                                @ConfigurationManager.AppSettings["HostnameBase"]
+                            </div>
+                            <div class='col-xs-6' style="width: 150px; font-size: large;padding-right: 0;">
+                                <div id="UserNameResult" style="font-size: large; font-weight: bold"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-12 form-group company required'>
+                        <label class='control-label'>Company or Organization</label>
+                        @Html.TextBoxFor(m => m.Company, new { @class = "form-control" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.Company)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-6 form-group firstname required'>
+                        <label class='control-label'>First Name</label>
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control first-name" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.FirstName)</div>
+                    </div>
+                    <div class='col-xs-6 form-group lastname required'>
+                        <label class='control-label'>Last Name</label>
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control last-name" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.LastName)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-12 form-group email required'>
+                        <label class='control-label'>Email</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.Email)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-12 form-group password required'>
+                        <label class='control-label'>Password</label>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.Password)</div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="row">
+            <br />
+            <br />
+        </div>
+
+        <div class="col-sm-6 centered">
+            <fieldset>
+                <legend>Payment Information</legend>
+                <div class='form-row'>
+                    <div class='col-xs-12 form-group card required'>
+                        <label class='control-label'>Card Number</label>
+                        @Html.TextBoxFor(m => m.CardNumber, new { @class = "form-control" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.CardNumber)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-8 form-group expiration required'>
+                        <label class='control-label'>Expiration (MM/YYYY)</label>
+                        @Html.TextBoxFor(m => m.Expiration, new { @class = "form-control" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.Expiration)</div>
+                    </div>
+
+                    <div class='col-xs-4 form-group cvc required'>
+                        <label class='control-label'>CVC</label>
+                        @Html.TextBoxFor(m => m.SecurityCode, new { @class = "form-control" })
+                        <div class="validation-errors">@Html.ValidationMessageFor(m => m.SecurityCode)</div>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-xs-12 form-group'>
+                        <input type="submit" value="Create Account &raquo;" class="btn btn-lg btn-success btn-block signup-btn" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+ 
+    <script type="text/javascript">
+            $('#Password').hidePassword(true);
+       
+            $('#Domain').blur(function () {
+                var url = '@Url.Content("~/plans/CheckUserName")';
+                var name = $('#Domain').val();
+                if (name != "") {
+                    $.get(url, { input: name }, function (data) {
+                        if (data == "Available") {
+                            $("#UserNameResult").html("<span style='color:green'>Available</span>");
+                            $("#Domain").css('background-color', '');
+                        }
+                        else {
+                            $("#UserNameResult").html("<span style='color:red'>Not Available</span>");
+                            $("#Domain").css('background-color', '#e97878');
+                        }
+                    });
+                }
+            });
+
+            $(function () {
+                $('form').submit(function () {
+                    $('input[type="submit"]', this).attr('disabled', 'disabled');
+                });
+            });
+
+            
+  
+    </script>
+}
+

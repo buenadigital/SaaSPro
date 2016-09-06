@@ -1,0 +1,83 @@
+﻿@using SaaSPro.Common.Web
+@{
+    Layout = "~/views/shared/_baselayout.cshtml";
+    Func<string, string> isActive = id => ViewBag.CurrentPage as string == id ? "active" : default(string);
+}
+@section head {
+    @RenderSection("head", false)
+}
+
+@section scripts {
+    @RenderSection("scripts", false)
+    <script src="~/signalr/hubs" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            var hub = $.connection.notificationsHub;
+
+            hub.client.notify = function (notification) {
+                toastr.info(notification.Subject, notification.NotificationType);
+            };
+
+            // Start the connection
+            $.connection.hub.start().done(function () {
+
+            });
+        });
+
+    </script>
+}
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@Url.Action("index", "dashboard", new { area = "" })">
+                <img src="~/Images/saaspro-logo.png" width="124" height="31" style="margin: -3px; " />
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="@isActive("dashboard")"><a href="@Url.Action("index", "dashboard", new { area = "" })">Dashboard</a></li>
+                <li class="@isActive("notifications")"><a href="@Url.Action("index", "notifications", new { area = "" })">Notifications</a></li>
+                @if (User.IsAdmin){<li class="@isActive("admin")"><a href="@Url.Action("index", "dashboard", new { area = "admin" })">Admin</a></li> }
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle navbar-user" data-toggle="dropdown">@User.Identity.Name <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("UpdateProfile", "Account", new { area = "" })">Update Profile</a></li>
+                        <li><a href="@Url.Action("changepassword", "account", new {area = ""})">Change Password</a></li>
+                        <li><a href="@Url.Action("ChangeSecurityQuestions", "Account", new { area = "" })">Change Security Questions</a></li>
+                        <li class="divider"></li>
+                        <li><a href="@Url.Action("logout", "auth", new { area = "" })" title="Log out">Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+<div class="page-wrapper container">
+    <div class="page-body">
+        @Html.Alert()
+        @RenderBody()
+    </div>
+</div>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="links col-md-6">
+                @*<a href="#">Contact</a>*@
+                <a href="@Url.Action("FAQs", "Content", new { area = "" }, null)">FAQs</a>
+            </div>
+            <div class="col-md-6 copyright">
+                &copy; SaaSPro by <a href="http://www.buenadigital.com" target="_blank">Buena Digital</a> @DateTime.Now.Year
+            </div>
+        </div>
+    </div>
+</footer>

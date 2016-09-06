@@ -1,0 +1,31 @@
+﻿@model SaaSPro.Services.ViewModels.ReferenceListsDetailsModel
+@{
+    ViewBag.Title = Model.SystemName + " Reference List";
+}
+<div class="page-main">
+    <div class="page-header">
+        <h1>@ViewBag.Title</h1>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Add Item</h3>
+        </div>
+        <div class="panel-body">
+            @Html.Partial("_AddItemForm", Model.AddItemModel)
+        </div>
+        <table class="table table-hover">
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Value</td>
+                        <td><a href="@Url.Action("removeitem", "referencelists", new { id = Model.Id, itemId = item.Id })" class="close hijax" data-parent="tr">&times;</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

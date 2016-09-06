@@ -1,0 +1,18 @@
+﻿@model SaaSPro.Services.ViewModels.ApiTokensAddModel
+@{
+    ViewBag.Title = "Add API Token";
+}
+<div class="page-header">
+    <h1>@ViewBag.Title</h1>
+</div>
+@using (Html.BeginForm("add", "apitokens", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    @Html.Partial("_Form")
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Add API Token" />
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

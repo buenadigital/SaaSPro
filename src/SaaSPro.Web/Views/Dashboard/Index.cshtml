@@ -1,0 +1,56 @@
+﻿@model SaaSPro.Services.ViewModels.CustomerDashboardModel
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.CurrentPage = "dashboard";
+}
+<div class="page-header">
+    <h1>@ViewBag.Title</h1>
+</div>
+
+<div class="row">
+    <div class="col-lg-9">
+        <div class="panel panel-default panel-collapse dashboard-referrals">
+            <div class="panel-heading" data-toggle="collapse" data-target="#criteria">
+                <h2 class="panel-title">
+                    My Projects
+                </h2>
+            </div>
+            @*<div id="criteria" class="collapse @Html.If(Model.SearchCriteria.HasCriteria(), "in")">
+                <div class="panel-body">
+                    @Html.Partial("_ReferralsSearchForm", Model.SearchCriteria)
+                </div>
+            </div>*@
+            @if (Model.Projects.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Create Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var project in Model.Projects)
+                            {
+                                <tr>
+                                    <td>@project.Name</td>
+                                    <td>@project.CreateDate.ToShortDateString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            @if (Model.Projects.TotalPages > 1)
+            {
+                <div class="panel-footer">
+                    @Html.PagerFor(model => model.Projects, x => Url.CurrentUrl(new { page = x }))
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-lg-3">
+        @Html.Action("index", "notifications", new { pageSize = 5 })
+    </div>
+</div>

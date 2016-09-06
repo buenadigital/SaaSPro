@@ -1,0 +1,23 @@
+﻿@model AuthSecurityCheckModel
+@{
+    ViewBag.Title = "Security Check";
+}
+@using (Html.BeginForm("securitycheck", "auth", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.ReturnUrl)
+    <h2>@ViewBag.Title</h2>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Question, new { @class = "sr-only" })
+        @Html.HiddenFor(model => model.Question)
+        @Model.Question
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Answer, new { @class = "sr-only" })
+        @Html.TextBoxFor(model => model.Answer, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Answer)
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+}

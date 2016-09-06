@@ -1,0 +1,65 @@
+﻿@model SaaSPro.Common.IPagedList<SaaSPro.Domain.Log4NetLog>
+@{
+    ViewBag.Title = "Logs";
+}
+<h1 class="page-header">@ViewBag.Title</h1>
+
+<div class="panel-body">
+    <p>
+        <a href="#delete-@Guid.Empty" data-toggle="modal" class="btn btn-mini btn-danger margintopbtm" style="position: absolute; right: 40px;"><i class="glyphicon glyphicon-trash"></i>&nbsp;Delete All</a>
+        @Html.Partial("_Delete", new DeleteConfirmationModel
+                                 {
+                                     Id = Guid.Empty,
+                                     Title = "Delete All Logs?",
+                                     Message = "Please confirm that you wish to <strong>delete all logs</strong> for <strong>" + @ViewBag.Name + "</strong>. This action will be permanent.",
+                                     Url = Url.Action("DeleteAll", "Log", new { name = ViewBag.Name }),
+                                 })
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+
+                <th>Level</th>
+                <th>Message</th>
+                <th>Logger</th>
+                <th>Thread</th>
+            </tr>
+        </thead>
+        @foreach (var log4NetLog in Model)
+        {
+            <tr>
+                <td>@log4NetLog.Date</td>
+
+                <td>@log4NetLog.Level</td>
+                <td>
+                    @{ 
+            string message = log4NetLog.Message ?? string.Empty;
+            if (message.Length > 70)
+            {
+                message = message.Substring(0, 70) + "...";
+            }
+                    }
+                    @message @Html.ActionLink("Details", "Details", new { id = log4NetLog.Id, name = log4NetLog.Logger })
+                </td>
+                <td>@log4NetLog.Logger</td>
+                <td>@log4NetLog.Thread</td>
+                <td>
+                    <a href="#delete-@log4NetLog.Id" data-toggle="modal" class="btn btn-mini btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i>Delete</a>
+                    @Html.Partial("_Delete", new DeleteConfirmationModel
+                                                 {
+                                                     Id = log4NetLog.Id,
+                                                     Title = "Delete Log?",
+                                                     Message = "Please confirm that you wish to <strong>delete</strong> the <strong>log</strong>. This action will be permanent.",
+                                                     Url = Url.Action("delete", "Log", new { id = log4NetLog.Id }),
+                                                 })
+                </td>
+            </tr>
+        }
+    </table>
+
+
+</div>
+<div class="pagination">
+    @Html.PagerFor(model => model, x => Url.Action("List", new { page = x, pageSize = Model.PageSize, name = ViewBag.Name }))
+</div>

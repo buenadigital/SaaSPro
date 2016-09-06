@@ -1,0 +1,34 @@
+﻿@model AuthLogInModel
+@{
+    ViewBag.Title = "Log In";
+}
+@section scripts {
+    <script>    
+        $(function () {
+            $("#Email").focus();
+        });
+    </script>
+}
+@using (Html.BeginForm("login", "auth", FormMethod.Post, new { @class = "form-login" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ReturnUrl)
+    <h2>Please log in</h2>
+    @Html.ValidationSummary(false)
+        
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, new { @class = "sr-only" })
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email Address" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password, new { @class = "sr-only" })
+        @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Password" })
+    </div>
+    <label class="checkbox">
+        @Html.CheckBoxFor(model => model.RememberMe) @Html.LabelFor(model => model.RememberMe)
+    </label>
+    <p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+    </p>
+    <a href="@Url.Action("forgotpassword")">Forgotten your password?</a>
+}

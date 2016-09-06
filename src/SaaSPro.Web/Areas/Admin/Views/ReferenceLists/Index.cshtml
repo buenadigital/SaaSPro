@@ -1,0 +1,22 @@
+﻿@model SaaSPro.Services.ViewModels.ReferenceListsModel
+@{
+    ViewBag.Title = "Reference Lists";
+}
+<div class="page-header">
+	<h1>@ViewBag.Title</h1>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>System Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var list in Model.Lists)
+    {
+        <tr>
+            <td><a href="@Url.Action("details", "referencelists", new { id = list.Id })">@list.SystemName</a></td>
+            <td><a href="@Url.Action("details", "referencelists", new { id = list.Id })" class="btn btn-default btn-xs">Details</a></td>
+        </tr>
+    }
+</table>

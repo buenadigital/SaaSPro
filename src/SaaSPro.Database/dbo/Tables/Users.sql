@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[Users] (
+    [Id]                       UNIQUEIDENTIFIER NOT NULL,
+    [CreatedOn]                DATETIME         NULL,
+    [UpdatedOn]                DATETIME         NULL,
+    [UserType]                 NVARCHAR (255)   NOT NULL,
+    [Email]                    NVARCHAR (255)   NOT NULL,
+    [FirstName]                NVARCHAR (255)   NOT NULL,
+    [LastName]                 NVARCHAR (255)   NOT NULL,
+    [Password]                 NVARCHAR (255)   NOT NULL,
+    [PasswordExpiryDate]       DATETIME         NOT NULL,
+    [RegisteredDate]           DATETIME         NOT NULL,
+    [Enabled]                  BIT              NOT NULL,
+    [LastLoginIP]              NVARCHAR (255)   NULL,
+    [LastLoginDate]            DATETIME         NULL,
+    [PasswordResetToken]       NVARCHAR (255)   NULL,
+    [PasswordResetTokenExpiry] DATETIME         NULL,
+    [CreatedBy]                UNIQUEIDENTIFIER NULL,
+    [UpdatedBy]                UNIQUEIDENTIFIER NULL,
+    [CustomerId]                 UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Users_Customers] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers] ([Id]),
+    CONSTRAINT [FK_UsersUpdated_ToUsers] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[Users] ([Id]),
+    CONSTRAINT [FK_UsersCreated_ToUsers] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[Users] ([Id])
+);
+

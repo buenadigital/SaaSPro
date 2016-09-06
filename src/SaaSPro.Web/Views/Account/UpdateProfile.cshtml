@@ -1,0 +1,44 @@
+﻿@model SaaSPro.Services.ViewModels.CustomersDetailsModel
+@{
+    ViewBag.Title = "Update Profile";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+    @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        
+        <fieldset>
+           @Html.HiddenFor(m => m.Hostname)
+            <div class='form-row'>
+                <div class='col-xs-9 form-group company required'>
+                    <label class='control-label'>Company or Organization</label>
+                    @Html.TextBoxFor(m => m.Company, new { @class = "form-control" })
+                    <div class="validation-errors">@Html.ValidationMessageFor(m => m.Company)</div>
+                </div>
+            </div>
+            <div class='form-row'>
+                <div class='col-xs-4 form-group fullname required'>
+                    <label class='control-label'>Full Name</label>
+                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                    <div class="validation-errors">@Html.ValidationMessageFor(m => m.FullName)</div>
+                </div>
+            </div>
+            <div class='form-row'>
+                <div class='col-xs-9 form-group email required'>
+                    <label class='control-label'>Email</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    <div class="validation-errors">@Html.ValidationMessageFor(m => m.Email)</div>
+                </div>
+            </div>
+     
+        </fieldset>
+    
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary margintopbtm" value="Update Profile" />
+        </div>
+    }
+    <div class="row">&nbsp;</div>
+</div>

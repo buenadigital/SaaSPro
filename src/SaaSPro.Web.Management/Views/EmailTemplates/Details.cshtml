@@ -1,0 +1,74 @@
+﻿@model SaaSPro.Services.ViewModels.EmailTemplateDetailsModel
+
+@{
+    ViewBag.Title = "Email Template Details";
+}
+
+@section scripts
+{
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/Content/summernote.css">
+    <script type="text/javascript" src="~/Scripts/summernote/summernote.min.js"></script>
+    
+    <style>
+        /* button group patch */
+         .note-toolbar>.btn-group {
+             height: 30px;
+         }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.summernote').summernote({ height: 200 });
+        });
+    </script>
+}
+
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+    @using (Html.BeginForm("details", "email-templates", new { id = Model.Id }, FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TemplateName)
+                @Html.HiddenFor(model => model.TemplateName)
+                @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control" , @disabled="disabled"})
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.TemplateName)</div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FromEmail)
+                @Html.TextBoxFor(model => model.FromEmail, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.FromEmail)</div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Subject)
+                @Html.TextBoxFor(model => model.Subject, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.Subject)</div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Body)
+                @Html.TextAreaFor(model => model.Body, new { @class = "summernote form-control", rows = "20", cols = "10" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.Body)</div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary margintopbtm" value="Update Email Template" />
+            @*<a href="#delete-@Model.Id" data-toggle="modal" class="btn btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i>Delete Email Template</a>*@
+            <a href="#" data-toggle="modal" class="btn btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i>Delete Email Template</a>
+        </div>
+    }
+    <div class="row">&nbsp;</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    @Html.Partial("_Delete", new DeleteConfirmationModel
+    {
+        Id = Model.Id,
+        Title = "Delete Email Template?",
+        Message = "Please confirm that you wish to delete the <strong>" + Model.TemplateName + "</strong> email template.",
+        Url = Url.Action("delete", "email-templates", new { id = Model.Id }),
+    })
+</div>
+

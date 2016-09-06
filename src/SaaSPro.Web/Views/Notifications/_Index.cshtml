@@ -1,0 +1,26 @@
+﻿@using SaaSPro.Common.Helpers;
+
+@model SaaSPro.Services.ViewModels.NotificationsListModel
+@{
+    ViewBag.Title = "Notifications";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">My Notifications</h3>
+    </div>
+    <ul class="list-group">
+        @foreach (var notification in Model.Notifications)
+        {
+            <li class="list-group-item">
+                <a href="@notification.Link">@notification.Subject</a> <a href="@Url.Action("delete", "notifications", new { id = notification.Id })" class="close hijax" data-parent="li">&times;</a><br />
+                <small><span class="meta">@notification.CreatedOn | @notification.NotificationType.ToString().SeparatePascalCase()</span></small>
+            </li>
+        }
+    </ul>
+    @if (Model.Notifications.HasNextPage)
+    {
+        <div class="panel-footer">
+            <a href="@Url.Action("index", "notifications")">View more</a>
+        </div>
+    }
+</div>

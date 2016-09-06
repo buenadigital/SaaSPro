@@ -1,0 +1,27 @@
+﻿@model SaaSPro.Services.ViewModels.RolesUpdateModel
+@{
+    ViewBag.Title = "Update Role";
+}
+<div class="page-main">
+    <div class="page-header">
+        <h1>@ViewBag.Title</h1>
+    </div>
+    @using (Html.BeginForm("update", "roles", new { id = Model.Id }, FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        @Html.Partial("_Form")
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Update Role" />
+            <a href="#delete" type="submit" data-toggle="modal" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete Role</a>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    @Html.Partial("_Delete", new ConfirmationModel
+    {
+        Title = "Delete Role?",
+        Message = "Please confirm that you wish to delete this role.",
+        Url = Url.Action("delete", "roles", new { id = Model.Id }),
+    })
+</div>

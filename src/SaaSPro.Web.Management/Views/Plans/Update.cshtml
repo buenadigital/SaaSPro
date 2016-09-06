@@ -1,0 +1,61 @@
+﻿@model SaaSPro.Services.ViewModels.PlansUpdateModel
+@{
+    ViewBag.Title = "Update Plan";
+}
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+    @using (Html.BeginForm("update", "plans", new { id = Model.Id }, FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.Name)</div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price)
+                @Html.TextBoxFor(model => model.Price, "{0:n2}", new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.Price)</div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Period)
+                @Html.TextBoxFor(model => model.Period, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.Period)</div>
+                <span class="help-block">@Html.DescriptionFor(model => model.Period)</span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.OrderIndex)
+                @Html.TextBoxFor(model => model.OrderIndex, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.OrderIndex)</div>
+                <span class="help-block">@Html.DescriptionFor(model => model.OrderIndex)</span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PlanCode)
+                @Html.TextBoxFor(model => model.PlanCode, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.PlanCode)</div>
+                <span class="help-block">@Html.DescriptionFor(model => model.PlanCode)</span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Enabled)
+                @Html.CheckBoxFor(model => model.Enabled)
+                <span class="help-block">@Html.DescriptionFor(model => model.Enabled)</span>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary margintopbtm" value="Update Plan" />
+            <a href="#delete-@Model.Id" data-toggle="modal" class="btn btn-danger margintopbtm"><i class="glyphicon glyphicon-trash"></i>Delete Plan</a>
+        </div>
+    }
+    <div class="row">&nbsp;</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    @Html.Partial("_Delete", new DeleteConfirmationModel
+    {
+        Id = Model.Id,
+        Title = "Delete Plan?",
+        Message = "Please confirm that you wish to delete the <strong>" + Model.Name + "</strong> plan.",
+        Url = Url.Action("delete", "plans", new { id = Model.Id }),
+    })
+</div>

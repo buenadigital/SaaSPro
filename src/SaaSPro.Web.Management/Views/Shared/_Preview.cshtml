@@ -1,0 +1,28 @@
+﻿@model SaaSPro.Services.ViewModels.EmailTemplateListModel.EmailTemplateSummary
+<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var iframe = document.getElementById('iframe_@Model.Id'),
+        iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+        iframedoc.body.innerHTML = $('div#templateHtml_@Model.Id:hidden').text();
+    });
+</script>
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Template Preview - @Model.TemplateName</h4>
+        </div>
+        <div class="modal-body">
+            <iframe id="iframe_@Model.Id" width="850" height="300" frameborder="0"></iframe>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+        <div id="templateHtml_@Model.Id" style="display: none;">
+            @Model.Body
+        </div>
+    </div>
+</div>

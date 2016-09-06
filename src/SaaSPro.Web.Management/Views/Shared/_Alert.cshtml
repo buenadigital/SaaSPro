@@ -1,0 +1,4 @@
+﻿<div class="alert alert-@Model.AlertType.ToString().ToLower()" role="alert">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong class="alert-heading">@Model.Title</strong> @Html.Raw(Model.Description)
+</div>

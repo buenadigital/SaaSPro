@@ -1,0 +1,17 @@
+﻿@using SaaSPro.Common.Web
+@{
+    Layout = "~/views/shared/_baselayout.cshtml";
+    ViewBag.BodyClass = "splash";
+}
+@section scripts {
+    @RenderSection("scripts", false)
+}
+<div class="layout-auth">  
+    <div class="brand">
+        <img src="~/Images/saaspro-logo-login.png" width="228" height="47" />
+    </div>
+    <div class="layout-auth-body">
+        @Html.Alert()
+        @RenderBody()
+    </div>
+</div>

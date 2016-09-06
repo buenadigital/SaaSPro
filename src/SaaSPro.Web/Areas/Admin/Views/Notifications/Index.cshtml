@@ -1,0 +1,38 @@
+﻿@model NotificationsSendModel
+@{
+    ViewBag.Title = "Notifications";
+}
+@section scripts {
+    <script>
+        $("form").submit(function (e) {
+            $.ajax({
+                url: this.action,
+                data: $(this).serialize(),
+                type: "POST"
+            });
+
+            e.preventDefault();
+        });
+    </script>
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title</h1>
+</div>
+
+@using (Html.BeginForm("send", "notifications", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.NotificationType)
+        @Html.EnumDropDownListFor(model => model.NotificationType, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.NotificationType)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Message)
+        @Html.TextAreaFor(model => model.Message, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Message)
+    </div>    
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Send Message" />
+    </div>
+}

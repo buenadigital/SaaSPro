@@ -1,0 +1,16 @@
+﻿﻿@model SaaSPro.Services.ViewModels.SecurityQuestion
+@{
+    var securityQuestionOptions = ViewBag.SecurityQuestionOptions as SelectList;
+}
+@Html.HiddenFor(model => model.Id)
+<div class="form-group">
+    @Html.LabelFor(model => model.Question, "Security Question " + Model.Index)
+    @Html.DropDownListFor(model => model.Question, securityQuestionOptions, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Question)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Answer, "Security Answer " + Model.Index)
+    @Html.TextBoxFor(model => model.Answer, new { placeholder = "Override current answer", @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Answer)
+</div>

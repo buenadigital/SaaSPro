@@ -1,0 +1,25 @@
+﻿@using System.Configuration
+@{
+    var baseHostname = ConfigurationManager.AppSettings["HostnameBase"];
+}
+
+To: @ViewBag.To
+From: @ViewBag.From
+Subject: SaaSPro Sign Up
+Content-Type: text/html
+
+<html>
+    <body>
+        <p>
+            Hi!,
+        </p>
+        <p>
+            Thank you for registering in SaaSPro. Your application url 
+            <a href="@string.Format("http://{0}{1}", ViewBag.Domain, baseHostname)">@string.Format("http://{0}{1}", ViewBag.Domain, baseHostname)</a>.
+        </p>
+        <p>
+            SaaSPro support<br />
+            <a href="http://SaaSPro.local">http://SaaSPro.local</a>
+        </p>
+    </body>
+</html>

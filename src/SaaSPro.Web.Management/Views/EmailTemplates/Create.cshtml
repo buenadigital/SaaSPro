@@ -1,0 +1,43 @@
+﻿@model SaaSPro.Services.ViewModels.EmailTemplateDetailsModel
+
+@{
+    ViewBag.Title = "Create Email Template";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel-body">
+    @using (Html.BeginForm("create", "email-templates", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TemplateName)
+                @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.TemplateName)</div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FromEmail)
+                @Html.TextBoxFor(model => model.FromEmail, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.FromEmail)</div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Subject)
+                @Html.TextBoxFor(model => model.Subject, new { @class = "form-control" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.Subject)</div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Body)
+                @Html.TextAreaFor(model => model.Body, new { @class = "form-control", rows = "20", cols = "10" })
+                <div class="validation-errors">@Html.ValidationMessageFor(model => model.Body)</div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary margintopbtm" value="Create Email Template" />
+        </div>
+    }
+    <div class="row">&nbsp;</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
