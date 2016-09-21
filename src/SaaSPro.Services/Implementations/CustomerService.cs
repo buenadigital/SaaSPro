@@ -146,34 +146,52 @@ namespace SaaSPro.Services.Implementations
 	        }
 
             // Delete Notes
-            foreach (var note in customer.Notes.ToList())
+            if (customer.Notes != null)
             {
-                _noteRepository.Delete(note);
+                foreach (var note in customer.Notes.ToList())
+                {
+                    _noteRepository.Delete(note);
+                }
             }
+                
 
             // Delete API records
-            foreach (var apiToken in customer.ApiTokens.ToList())
+            if (customer.ApiTokens != null)
             {
-                _apitokensRepository.Delete(apiToken);
+                foreach (var apiToken in customer.ApiTokens.ToList())
+                {
+                    _apitokensRepository.Delete(apiToken);
+                }
             }
 
             // Delete IPS records
-            foreach (var ipsEntry in customer.IPSEntries.ToList())
+            if (customer.IPSEntries != null)
             {
-                _ipsEntryRepository.Delete(ipsEntry);
+                foreach (var ipsEntry in customer.IPSEntries.ToList())
+                {
+                    _ipsEntryRepository.Delete(ipsEntry);
+                }
             }
+                
 
             //delete all reference list items
-            foreach (var item in customer.ReferenceListItems.ToList())
+            if (customer.ReferenceListItems != null)
             {
-                _referenceListItemRepository.Delete(item);
+                foreach (var item in customer.ReferenceListItems.ToList())
+                {
+                    _referenceListItemRepository.Delete(item);
+                }
             }
 
             // delete all users
-            foreach (var user in customer.Users.ToList())
+            if (customer.Users != null)
             {
-                _userRepository.Delete(user);
+                foreach (var user in customer.Users.ToList())
+                {
+                    _userRepository.Delete(user);
+                }
             }
+                
 
             //// delete all payments
             //foreach (var payment in _customerPaymentRepository.Query().Where(x => x.CustomerId == id).ToList())
@@ -212,7 +230,7 @@ namespace SaaSPro.Services.Implementations
             _roleRepository.Add(role);
 
             // users
-            var user = new User(customer, model.Email, "Admin", "User", "admin", true);
+            var user = new User(customer, model.Email, model.FirstName, model.LastName, model.Password, true);
             _userRepository.Add(user);
             role.AddUser(user);
             customer.UpdateAdminUser(user);

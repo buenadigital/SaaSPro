@@ -41,20 +41,12 @@ namespace SaasPro.TestsConfiguration.Helper
 
 			var referenceList = new ReferenceList("Security Questions");
 
-			var emailTemplates = new List<EmailTemplate>
-			{
-				new EmailTemplate("Forgot Password", "", "test@saaspro.com", "Payment"),
-				new EmailTemplate("Other", "", null, null),
-				new EmailTemplate("Payment", "", "test@saaspro.com", "Payment"),
-				new EmailTemplate("Contact Request", "", "test@saaspro.com", "Contact Request"),
-				new EmailTemplate("Sign Up Greeting", "", "test@saaspro.com", "Welcome to SaaSPro!!")
-			};
+			CreateEmailTemplates(dbContext);
 
 			dbContext.Plans.Add(planSuper);
 			dbContext.Plans.Add(planMedium);
 			dbContext.Plans.Add(planSmall);
-
-			dbContext.EmailTemplates.AddRange(emailTemplates);
+            
 			dbContext.ReferenceLists.Add(referenceList);
 
 			dbContext.SaveChanges();
@@ -62,7 +54,23 @@ namespace SaasPro.TestsConfiguration.Helper
 			return new List<Plan> { planSuper, planMedium, planSmall };
 		}
 
-		public static User CreateUser(EFDbContext dbContext)
+        public static void CreateEmailTemplates(EFDbContext dbContext)
+        {
+            var emailTemplates = new List<EmailTemplate>
+            {
+                new EmailTemplate("Forgot Password", "Body Text", "test@saaspro.com", "Payment"),
+                new EmailTemplate("Other", "Body Text", null, null),
+                new EmailTemplate("Payment", "Body Text", "test@saaspro.com", "Payment"),
+                new EmailTemplate("Contact Request", "Body Text", "test@saaspro.com", "Contact Request"),
+                new EmailTemplate("Sign Up Greeting", "Body Text", "test@saaspro.com", "Welcome to SaaSPro!!")
+            };
+
+            dbContext.EmailTemplates.AddRange(emailTemplates);
+
+            dbContext.SaveChanges();
+        }
+
+        public static User CreateUser(EFDbContext dbContext)
 		{
 			var customer = new Customer("John", "john-domain", "Join-LTD");
 			dbContext.Customers.Add(customer);

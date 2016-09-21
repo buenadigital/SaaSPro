@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SaasPro.TestsConfiguration.Helper;
 using SaaSPro.Common.Web;
 using SaaSPro.Data;
 using SaaSPro.Services.Interfaces;
@@ -16,7 +17,8 @@ namespace SaaSPro.Web.Management.Tests
 		public static void ClassInitialize(TestContext context)
 		{
 			ClassInitialize();
-			Controller = new EmailTemplatesController(Container.GetInstance<IEmailTemplatesService>());
+            TestsDataInitialize.CreateEmailTemplates(Container.GetInstance<EFDbContext>());
+            Controller = new EmailTemplatesController(Container.GetInstance<IEmailTemplatesService>());
 		}
 
 		[TestInitialize]

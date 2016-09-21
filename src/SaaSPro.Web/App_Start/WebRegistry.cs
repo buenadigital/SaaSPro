@@ -65,7 +65,8 @@ namespace SaaSPro.Web
 			For<IUserRepository>().Use<UserRepository>();
 			For<IRoleRepository>().Use<RoleRepository>();
 			For<IReferenceListRepository>().Use<ReferenceListRepository>();
-			For<IApiTokenRepository>().Use<ApiTokenRepository>();
+            For<IReferenceListItemRepository>().Use<ReferenceListItemRepository>();
+            For<IApiTokenRepository>().Use<ApiTokenRepository>();
             For<IApiSessionTokenRepository>().Use<ApiSessionTokenRepository>();
             For<IIPSRepository>().Use<IPSRepository>();
 			For<IPlanRepository>().Use<PlanRepository>();

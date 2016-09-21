@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SaasPro.TestsConfiguration;
+using SaasPro.TestsConfiguration.Helper;
+using SaaSPro.Data;
 using SaaSPro.Services.Interfaces;
 using SaaSPro.Web.Controllers;
 using SaaSPro.Web.ViewModels;
@@ -16,9 +18,10 @@ namespace SaaSPro.Web.App.Tests
 		public static void ClassInitialize(TestContext context)
 		{
 			ClassInitialize();
+            TestsDataInitialize.CreateEmailTemplates(Container.GetInstance<EFDbContext>());
 			Controller = new AuthController(Container.GetInstance<IUserService>(),
 				Container.GetInstance<ILoginManager>(), Container.GetInstance<IEmailTemplatesRepository>());
-		}
+        }
 
 		[TestInitialize]
 		public override void TestInitialize()

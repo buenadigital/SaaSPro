@@ -50,7 +50,7 @@ namespace SaaSPro.Web.Management.Tests
 			model.Domain = "alex-domain";
 			model.FirstName = "Alex";
 			model.LastName = "Sanches";
-			model.Email = "alex@sanches.com";
+			model.Email = "foo@bar.com";
 			model.Company = "Sanches LTD";
 			model.Password = "Password1";
 			model.ConfirmPassword = "Password1";

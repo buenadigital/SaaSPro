@@ -12,7 +12,6 @@ namespace SaaSPro.Web
 		{
             // Handlers
             config.MessageHandlers.Add(ObjectFactory.GetInstance<CustomerAuthHandler>());
-            config.MessageHandlers.Add(ObjectFactory.GetInstance<IPAddressAuthHandler>());
             config.MessageHandlers.Add(ObjectFactory.GetInstance<ApiAuthHandler>());
             
             // Filters

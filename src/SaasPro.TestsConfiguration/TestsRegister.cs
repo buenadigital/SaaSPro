@@ -42,6 +42,7 @@ namespace SaasPro.TestsConfiguration
 			For<IUserRepository>().Use<UserRepository>();
 			For<IRoleRepository>().Use<RoleRepository>();
 			For<IReferenceListRepository>().Use<ReferenceListRepository>();
+            For<IReferenceListItemRepository>().Use<ReferenceListItemRepository>();
             For<IApiTokenRepository>().Use<ApiTokenRepository>();
             For<IApiSessionTokenRepository>().Use<ApiSessionTokenRepository>();
 			For<IIPSRepository>().Use<IPSRepository>();
