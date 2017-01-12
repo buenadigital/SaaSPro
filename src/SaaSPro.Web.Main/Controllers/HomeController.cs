@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SaaSPro.Web.Front.Controllers
+namespace SaaSPro.Web.Main.Controllers
 {
     public class HomeController : Controller
     {

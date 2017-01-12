@@ -2,7 +2,7 @@
 using System.Web.Routing;
 using LowercaseRoutesMVC;
 
-namespace SaaSPro.Web.Front
+namespace SaaSPro.Web.Main
 {
     public class RouteConfig
     {

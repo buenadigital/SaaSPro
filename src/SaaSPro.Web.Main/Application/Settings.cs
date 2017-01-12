@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace SaaSPro.Web.Front.Application
+namespace SaaSPro.Web.Main.Application
 {
     public static class Settings
     {

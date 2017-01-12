@@ -5,7 +5,7 @@ using SaasPro.TestsConfiguration.Helper;
 using SaaSPro.Data;
 using SaaSPro.Data.Repositories;
 using SaaSPro.Services.ViewModels;
-using SaaSPro.Web.Front.Controllers;
+using SaaSPro.Web.Main.Controllers;
 
 namespace SaaSPro.Web.Main.Tests
 {

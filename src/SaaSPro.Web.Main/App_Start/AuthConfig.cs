@@ -1,4 +1,4 @@
-﻿namespace SaaSPro.Web.Front
+﻿namespace SaaSPro.Web.Main
 {
     public static class AuthConfig
     {

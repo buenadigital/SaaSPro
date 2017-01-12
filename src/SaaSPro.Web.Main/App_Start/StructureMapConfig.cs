@@ -2,7 +2,7 @@
 using StructureMap;
 using StructureMap.Graph;
 
-namespace SaaSPro.Web.Front
+namespace SaaSPro.Web.Main
 {
     public static class StructureMapConfig
     {

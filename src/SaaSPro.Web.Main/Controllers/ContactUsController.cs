@@ -11,7 +11,7 @@ using System.Net.Mail;
 using System;
 using SaaSPro.Infrastructure.Logging;
 
-namespace SaaSPro.Web.Front.Controllers
+namespace SaaSPro.Web.Main.Controllers
 {
     public class ContactUsController : Controller
     {

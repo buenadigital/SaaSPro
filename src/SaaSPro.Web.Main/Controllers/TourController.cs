@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SaaSPro.Web.Front.Controllers
+namespace SaaSPro.Main.Main.Controllers
 {
     public class TourController : Controller
     {

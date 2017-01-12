@@ -12,7 +12,7 @@ using SaaSPro.Data.Repositories;
 using SaaSPro.Services.Helpers;
 using SaaSPro.Services.Mapping;
 
-namespace SaaSPro.Web.Front.Controllers
+namespace SaaSPro.Web.Main.Controllers
 {
     public class PlansController : Controller
     {

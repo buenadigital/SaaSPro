@@ -9,12 +9,12 @@ using SaaSPro.Infrastructure.Logging;
 using SaaSPro.Infrastructure.Payment;
 using SaaSPro.Services.Implementations;
 using SaaSPro.Services.Interfaces;
-using SaaSPro.Web.Front.Application;
+using SaaSPro.Web.Main.Application;
 using StructureMap.Configuration.DSL;
 using StructureMap.Web.Pipeline;
 
 
-namespace SaaSPro.Web.Front
+namespace SaaSPro.Web.Main
 {
 	public class WebRegistry : Registry
 	{

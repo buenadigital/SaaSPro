@@ -135,6 +135,10 @@
       <Project>{e51e2606-172a-4134-b0d4-26dc90121a55}</Project>
       <Name>SaasPro.TestsConfiguration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SaaSPro.Web.Main\SaaSPro.Web.Main.csproj">
+      <Project>{b933f8c0-4967-464c-99e8-f1b04826feea}</Project>
+      <Name>SaaSPro.Web.Main</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

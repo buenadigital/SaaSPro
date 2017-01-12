@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using StructureMap;
 
-namespace SaaSPro.Web.Front
+namespace SaaSPro.Web.Main
 {
     public class FilterConfig
     {

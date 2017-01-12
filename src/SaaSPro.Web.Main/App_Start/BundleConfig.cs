@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace SaaSPro.Web.Front
+namespace SaaSPro.Web.Main
 {
     public class BundleConfig
     {

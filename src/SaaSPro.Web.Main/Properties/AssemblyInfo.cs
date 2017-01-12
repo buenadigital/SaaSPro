@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SaaSPro.Web.Front")]
+[assembly: AssemblyTitle("SaaSPro.Web.Main")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Buena Digital")]
-[assembly: AssemblyProduct("SaaSPro.Web.Front")]
+[assembly: AssemblyProduct("SaaSPro.Web.Main")]
 [assembly: AssemblyCopyright("Copyright © 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

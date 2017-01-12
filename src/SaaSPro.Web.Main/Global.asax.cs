@@ -12,7 +12,7 @@ using StructureMap;
 using log4net.Config;
 using StructureMap.Web.Pipeline;
 
-namespace SaaSPro.Web.Front
+namespace SaaSPro.Web.Main
 {
     public class MvcApplication : System.Web.HttpApplication
     {

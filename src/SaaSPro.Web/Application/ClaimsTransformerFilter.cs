@@ -20,8 +20,9 @@ namespace SaaSPro.Web
 
             if (currentPrincipal.Identity.IsAuthenticated)
             {
+                var customer = filterContext.HttpContext.Items[Constants.CurrentCustomerInstanceKey] as CustomerInstance;
                 var user = UserRepositoryFactory().Query()
-                    .FirstOrDefault(u => u.Email == currentPrincipal.Identity.Name);
+                    .FirstOrDefault(u => u.Email == currentPrincipal.Identity.Name && u.CustomerId == customer.CustomerId);
 
                 if (user != null)
                 {
