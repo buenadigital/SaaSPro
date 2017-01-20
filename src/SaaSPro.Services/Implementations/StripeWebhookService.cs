@@ -12,7 +12,6 @@ using Stripe;
 using System.Net.Mail;
 using SaaSPro.Services.Mapping;
 using Newtonsoft.Json.Linq;
-using SaaSPro.Resources;
 
 namespace SaaSPro.Services.Implementations
 {
@@ -51,8 +50,8 @@ namespace SaaSPro.Services.Implementations
                 Customer customer = _customerRepository.Query().FirstOrDefault(p => p.PaymentCustomerId == customerId);
                 if (customer == null)
                 {
-                    LoggingFactory.GetLogger().Log(Messages.NotFindCustomerByPaymentCustomerId, EventLogSeverity.Error);
-                    throw new Exception(Messages.NotFindCustomerByPaymentCustomerId + customerId);
+                    LoggingFactory.GetLogger().Log("Message.NotFindCustomerByPaymentCustomerId", EventLogSeverity.Error);
+                    throw new Exception("Messages.NotFindCustomerByPaymentCustomerId" + customerId);
                 }
 
                 StripeSubscription subscription;

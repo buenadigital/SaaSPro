@@ -53,6 +53,9 @@ namespace SaaSPro.Common
         [Description("Contact Request")]
         ContactRequest,
 
+        [Description("Support Contact Us")]
+        SupportContactUs,
+
         [Description("None")]
         None
     }

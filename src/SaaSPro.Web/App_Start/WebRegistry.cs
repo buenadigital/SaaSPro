@@ -68,7 +68,6 @@ namespace SaaSPro.Web
             For<IReferenceListItemRepository>().Use<ReferenceListItemRepository>();
             For<IApiTokenRepository>().Use<ApiTokenRepository>();
             For<IApiSessionTokenRepository>().Use<ApiSessionTokenRepository>();
-            For<IIPSRepository>().Use<IPSRepository>();
 			For<IPlanRepository>().Use<PlanRepository>();
 			For<ICustomerRepository>().Use<CustomerRepository>();
 			For<IEmailTemplatesRepository>().Use<EmailTemplatesRepository>();
@@ -104,7 +103,6 @@ namespace SaaSPro.Web
 			For<IReferenceListService>().Use<ReferenceListService>();
 			For<IApiTokenService>().Use<ApiTokenService>();
             For<IApiSessionTokenService>().Use<ApiSessionTokenService>();
-            For<IIPSService>().Use<IPSService>();
 			For<IPlanService>().Use<PlanService>();
 			For<ISubscriptionsService>().Use<SubscriptionsService>();
 			For<IUserNotificationService>().Use<UserNotificationService>();

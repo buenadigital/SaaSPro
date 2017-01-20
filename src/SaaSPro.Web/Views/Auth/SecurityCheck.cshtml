@@ -2,6 +2,13 @@
 @{
     ViewBag.Title = "Security Check";
 }
+
+<script>
+    $(function () {
+        $("#Answer").focus();
+    });
+</script>
+
 @using (Html.BeginForm("securitycheck", "auth", FormMethod.Post))
 {
     @Html.ValidationSummary(true)

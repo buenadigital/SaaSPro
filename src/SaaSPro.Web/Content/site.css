@@ -55,11 +55,11 @@
 }
 
 footer .links {
-  background: url('/Images/icon.png') no-repeat 0 50% !important;
   height: 40px;
   line-height: 40px;
-  padding-left: 80px;
+  padding-left: 20px;
 }
+
 footer .links a {
   text-transform: uppercase;
   margin-right: 1em;

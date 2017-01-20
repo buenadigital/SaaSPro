@@ -56,7 +56,7 @@ namespace SaaSPro.Web.Management.Controllers
 
             // removed for demo purposes
             return RedirectToAction("index")
-                .AndAlert(AlertType.Warning, "Email Template updated.", "The email template was updated successfully.");
+                .AndAlert(AlertType.Success, "Email Template updated.", "The email template was updated successfully.");
 
             //Guid id = _emailTemplatesService.Update(model);
 
@@ -76,6 +76,7 @@ namespace SaaSPro.Web.Management.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(EmailTemplateDetailsModel model)
         {
                 _emailTemplatesService.Add(model);
@@ -92,7 +93,7 @@ namespace SaaSPro.Web.Management.Controllers
             //                                          "The email template was deleted successfully.");
 
             return RedirectToAction("index")
-                .AndAlert(AlertType.Warning, "Email Template deleted.", "The email template was deleted successfully.");
+                .AndAlert(AlertType.Success, "Email Template deleted.", "The email template was deleted successfully.");
         }
 
         public ActionResult GetTemplateContent(Guid id)

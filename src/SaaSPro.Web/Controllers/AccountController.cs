@@ -42,6 +42,8 @@ namespace SaaSPro.Web.Controllers
             }
 
             currentUser.SetPassword(model.NewPassword);
+            _userService.SetPassword(currentUser.Id, model.NewPassword);
+
             return RedirectToAction("changepassword").AndAlert(AlertType.Success, "Success.", "Your password was updated successfully.");
         }
 

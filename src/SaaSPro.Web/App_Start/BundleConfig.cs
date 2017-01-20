@@ -22,13 +22,14 @@ namespace SaaSPro.Web
 
             bundles.Add(new ScriptBundle("~/bundles/plugins")
                 .Include("~/Scripts/bootstrap.js",
-                          "~/Scripts/holder.min.js",
-                          "~/Scripts/respond.js",
-                          "~/Scripts/jquery-{version}.js",
-                         "~/Scripts/bootstrap-datepicker.js",
-                         "~/Scripts/toastr.js",
-                         "~/Scripts/saaspro.js",
-                         "~/Scripts/jquery.signalR-{version}.js"));
+                            "~/Scripts/holder.min.js",
+                            "~/Scripts/respond.js",
+                            "~/Scripts/jquery-{version}.js",
+                            "~/Scripts/bootstrap-datepicker.js",
+                            "~/Scripts/toastr.js",
+                            "~/Scripts/saaspro.js",
+                            "~/Scripts/jquery.signalR-{version}.js",
+                            "~/Scripts/jquery.unobtrusive-ajax.min.js"));
         }
     }
 }

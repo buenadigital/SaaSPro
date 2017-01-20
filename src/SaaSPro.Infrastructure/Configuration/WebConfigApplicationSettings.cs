@@ -4,6 +4,7 @@ namespace SaaSPro.Infrastructure.Configuration
 {
     public class WebConfigApplicationSettings : IApplicationSettings 
     {
+        public string APIKey => ConfigurationManager.AppSettings["SendGridAPIKey"];
         public string MailServer => ConfigurationManager.AppSettings["MailServer"];
         public string MailUserName => ConfigurationManager.AppSettings["MailUserName"];
         public string MailPassword => ConfigurationManager.AppSettings["MailPassword"];

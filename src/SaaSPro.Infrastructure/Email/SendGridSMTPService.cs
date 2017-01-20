@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Net;
-using System.Net.Mail;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using SaaSPro.Infrastructure.Configuration;
 using SaaSPro.Infrastructure.Logging;
-using SendGrid;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace SaaSPro.Infrastructure.Email
 {
@@ -13,7 +14,7 @@ namespace SaaSPro.Infrastructure.Email
         {
             try
             {
-                SendMailAsync(CreateSendGridMessage(mailMessage));
+                SendMailAsync(mailMessage).Wait();
             }
             catch (Exception ex)
             {
@@ -24,41 +25,24 @@ namespace SaaSPro.Infrastructure.Email
             return true;
         }
 
-        private void SendMailAsync(SendGridMessage message)
-	    {
-            string server = ApplicationSettingsFactory.GetApplicationSettings().MailServer;
-            string user = ApplicationSettingsFactory.GetApplicationSettings().MailUserName;
-            string password = ApplicationSettingsFactory.GetApplicationSettings().MailPassword;
-
-            // Create credentials, specifying your user name and password.
-            var credentials = new NetworkCredential(user, password, server);
-
-            // Create a Web transport for sending email.
-            var transportWeb = new Web(credentials);
-
-            // Send the email.
-            transportWeb.DeliverAsync(message).GetAwaiter();
-	    }
-
-        private SendGridMessage CreateSendGridMessage(MailMessage mail)
+        private static async Task SendMailAsync(MailMessage message)
         {
-            var sendGridMessage = new SendGridMessage()
-            {
-                From = mail.From,
-                Subject = mail.Subject
-            };
+            string apiKey = ApplicationSettingsFactory.GetApplicationSettings().APIKey;
+            dynamic sg = new SendGridAPIClient(apiKey);
 
-            foreach (var recipient in mail.To)
-            {
-                sendGridMessage.AddTo(recipient.ToString());
-            }
+            SendGrid.Helpers.Mail.Email from = new SendGrid.Helpers.Mail.Email(message.From.ToString());
+            SendGrid.Helpers.Mail.Email to = new SendGrid.Helpers.Mail.Email(message.To.ToString());
 
-            if (mail.IsBodyHtml)
-                sendGridMessage.Html = mail.Body;
+            Content content;
+
+            if(message.IsBodyHtml)
+                content = new Content("text/html", message.Body);
             else
-                sendGridMessage.Text = mail.Body;
+                content = new Content("text/plain", message.Body);
             
-            return sendGridMessage;
+            Mail mail = new Mail(from, message.Subject, to, content);
+
+            dynamic response = await sg.client.mail.send.post(requestBody: mail.Get());
         }
     }
 }

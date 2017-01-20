@@ -1,0 +1,51 @@
+﻿@model SaaSPro.Services.ViewModels.ContactUsSupportModel
+
+<div class="modal-dialog" id="contactUs-form-container">
+    @using (Html.BeginForm("SendRequest", "ContactUs", FormMethod.Post, new { id = "form-contactus" }))
+    {
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">We'd Love to Hear From You</h3>
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    @Html.ValidationSummary(true)
+                    <div id="contactUsSuccess" class="alert alert-success" style="display:none;">
+                        <strong>Success!</strong> Thank you for contacting us.
+                    </div>
+                    <div id="contactUsError" class="alert alert-danger" style="display:none;">
+                        <strong>Error!</strong> There was an error processing your request.
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control required", placeholder = "Name", data_placement = "top", data_trigger = "manual", type = "text" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Message)
+                        @Html.TextAreaFor(m => m.Message, new { @class = "form-control required", placeholder = "Your message here..", data_placement = "top", data_trigger = "manual", type = "text" })
+                        @Html.ValidationMessageFor(m => m.Message)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control email", placeholder = "email@you.com (so that we can contact you)", data_placement = "top", data_trigger = "manual", data_content = "Must be a valid e-mail address (user@gmail.com)", type = "text" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Phone)
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control required", placeholder = "Phone number", data_placement = "top", data_trigger = "manual", type = "text" })
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="contactUsSubmit" style="float: left;" type="button" class="btn btn-default btn-close" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" style="float: right;" value="Send" />
+        </div>
+    </div>
+    }
+</div>

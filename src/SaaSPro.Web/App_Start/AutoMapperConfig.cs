@@ -40,8 +40,6 @@ namespace SaaSPro.Web
             Mapper.CreateMap<ApiToken, ApiTokensListModel.ApiTokenSummary>();
             Mapper.CreateMap<ApiToken, ApiTokensUpdateModel>();
 
-            Mapper.CreateMap<IPSEntry, IPSListModel.IPSEntrySummary>();
-
             Mapper.CreateMap<Project, CustomerDashboardModel.ProjectSummary>();
             Mapper.CreateMap<Project, CustomerDashboardModel>();
          

@@ -43,6 +43,16 @@ namespace SaaSPro.Services.Helpers
                 emailTemplate.Body = emailTemplate.Body.Replace("##Email##", contactUs.Email)
                     .Replace("##Message##", contactUs.Message);
             }
+            else if (entity.GetType() == typeof(ViewModels.ContactUsSupportModel))
+            {
+                var contactUs = (ViewModels.ContactUsSupportModel)entity;
+                emailTemplate.To = contactUs.MailTo;
+                emailTemplate.Body = emailTemplate.Body
+                    .Replace("##Email##", contactUs.Email)
+                    .Replace("##Message##", contactUs.Message)
+                    .Replace("##Phone##", contactUs.Phone)
+                    .Replace("##Name##", contactUs.Name);
+            }
 
             return emailTemplate;
         }

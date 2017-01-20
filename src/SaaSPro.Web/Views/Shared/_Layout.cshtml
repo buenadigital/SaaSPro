@@ -1,4 +1,6 @@
 ﻿@using SaaSPro.Common.Web
+
+
 @{
     Layout = "~/views/shared/_baselayout.cshtml";
     Func<string, string> isActive = id => ViewBag.CurrentPage as string == id ? "active" : default(string);
@@ -26,6 +28,34 @@
             });
         });
 
+        $("#contactUsModal").on("submit", "#form-contactus", function (e) {
+            e.preventDefault();  // prevent standard form submission
+
+            var form = $(this);
+
+            $.ajax({
+                url: form.attr("action"),
+                method: form.attr("method"),
+                data: form.serialize(),
+                success: function (data) {
+                    if (data.success == true) {
+                        $('#contactUsSuccess').show();
+
+                        setTimeout(function () {
+                            $('#contactUsSuccess').hide();
+                            $('#contactUsModal').modal('hide');
+                        }, 3000);
+                    }
+                    else {
+                        $('#contactUsError').show();
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#contactUsError').show();
+                }
+            });
+        });
+
     </script>
 }
 <div class="navbar navbar-default navbar-fixed-top">
@@ -44,7 +74,9 @@
             <ul class="nav navbar-nav">
                 <li class="@isActive("dashboard")"><a href="@Url.Action("index", "dashboard", new { area = "" })">Dashboard</a></li>
                 <li class="@isActive("notifications")"><a href="@Url.Action("index", "notifications", new { area = "" })">Notifications</a></li>
-                @if (User.IsAdmin){<li class="@isActive("admin")"><a href="@Url.Action("index", "dashboard", new { area = "admin" })">Admin</a></li> }
+                @if (User.IsAdmin)
+                {
+                <li class="@isActive("admin")"><a href="@Url.Action("index", "dashboard", new { area = "admin" })">Admin</a></li> }
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -59,7 +91,6 @@
                 </li>
             </ul>
         </div>
-        <!--/.nav-collapse -->
     </div>
 </div>
 <div class="page-wrapper container">
@@ -72,12 +103,15 @@
     <div class="container">
         <div class="row">
             <div class="links col-md-6">
-                @*<a href="#">Contact</a>*@
+                <a href="#contactUsModal" data-toggle="modal">Contact Us</a>
                 <a href="@Url.Action("FAQs", "Content", new { area = "" }, null)">FAQs</a>
             </div>
-            <div class="col-md-6 copyright">
-                &copy; SaaSPro by <a href="http://www.buenadigital.com" target="_blank">Buena Digital</a> @DateTime.Now.Year
-            </div>
+            <div class="col-md-6 copyright">&copy; SaaSPro by <a href="http://www.buenadigital.com" target="_blank">Buena Digital</a> @DateTime.Now.Year</div>
         </div>
     </div>
 </footer>
+
+
+<div id="contactUsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="contactUsModalLabel" aria-hidden="true">
+    @Html.Partial("~/Views/Contact/_ContactUs.cshtml", new SaaSPro.Services.ViewModels.ContactUsSupportModel())
+</div>

@@ -2,6 +2,7 @@
 {
     public interface IApplicationSettings
     {
+        string APIKey { get; }
         string MailServer { get; }
         string MailUserName { get; }
         string MailPassword { get; }

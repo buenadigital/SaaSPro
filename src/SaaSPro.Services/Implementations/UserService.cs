@@ -96,16 +96,13 @@ namespace SaaSPro.Services.Implementations
            AddUserResponse response=new AddUserResponse();
 
             var user = new User(request.Customer, request.Model.Email, request.Model.FirstName, request.Model.LastName, request.Model.Password);
-
-            // set the security questions
             user.AddSecurityQuestion(request.Model.SecurityQuestion1, request.Model.SecurityAnswer1);
             user.AddSecurityQuestion(request.Model.SecurityQuestion2, request.Model.SecurityAnswer2);
             user.AddSecurityQuestion(request.Model.SecurityQuestion3, request.Model.SecurityAnswer3);
 
             UpdateRoleMembership(user, request.Model.SelectedRoles,request.CustomerId);
             _userRepository.Add(user);
-            
-            //Commit transaction
+     
             _unitOfWork.Commit();
 
             response.UserID = user.Id;
@@ -119,8 +116,11 @@ namespace SaaSPro.Services.Implementations
 
             Ensure.Argument.NotNullOrEmpty(newPassword, "newPassword");
             user.Password = CryptoHelper.HashPassword(newPassword);
-
             user.PasswordExpiryDate = expireImmediately ? DateTime.UtcNow : DateTime.UtcNow.AddDays(PasswordExpiryDays);
+            user.UpdatedBy = user;
+            user.UpdatedOn = DateTime.Now;
+            _unitOfWork.Commit();
+ 
         }
 
         public UpdateProfileResponse UpdateProfile(UpdateProfileRequest request)

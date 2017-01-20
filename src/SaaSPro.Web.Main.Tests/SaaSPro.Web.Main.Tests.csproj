@@ -136,7 +136,7 @@
       <Name>SaasPro.TestsConfiguration</Name>
     </ProjectReference>
     <ProjectReference Include="..\SaaSPro.Web.Main\SaaSPro.Web.Main.csproj">
-      <Project>{b933f8c0-4967-464c-99e8-f1b04826feea}</Project>
+      <Project>{B933F8C0-4967-464C-99E8-F1B04826FEEA}</Project>
       <Name>SaaSPro.Web.Main</Name>
     </ProjectReference>
   </ItemGroup>
